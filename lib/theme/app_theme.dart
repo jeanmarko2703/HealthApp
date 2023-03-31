@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // static const Color primary = Color.fromRGBO(255, 75, 58, 1);
+  static const Color primary = Color.fromRGBO(211, 224, 239, 1);
+  static const Color buttonLabelColor = Color.fromRGBO(117, 198, 227, 1);
+
   // static const secondColor = Color.fromRGBO(173, 173, 175, 1);
   // static const backgroundColor = Color.fromRGBO(246, 246, 249, 1);
 

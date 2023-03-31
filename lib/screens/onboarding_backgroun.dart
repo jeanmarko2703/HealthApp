@@ -5,8 +5,16 @@ class OnboardingBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      "assets/onboarding_backgorund.jpeg",
+    final size = MediaQuery.of(context).size;
+    return SafeArea(
+      bottom: false,
+      top: false,
+      child: Image.asset(
+        "assets/onboarding_backgorund.jpeg",
+        height: size.height,
+        width: size.width,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

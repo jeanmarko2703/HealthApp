@@ -5,7 +5,7 @@ import '../models/models.dart';
 import '../screens/screens.dart';
 
 class AppRoute {
-  static const initialRoute = "loginScreen";
+  static const initialRoute = "homeScreen";
   static final menuOption = <MenuOption>[
     MenuOption(route: "homeScreen", name: "home", screen: const HomeScreen())
   ];
