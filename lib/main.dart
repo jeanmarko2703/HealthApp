@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/providers/providers.dart';
 import 'package:health_app/routes/routes.dart';
 import 'package:health_app/theme/app_theme.dart';
 
 void main() {
-  runApp( const MyApp());
+  runApp(const AppState());
+}
+
+class AppState extends StatelessWidget {
+  const AppState({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => UiProvider()),
+    ], child: const MyApp());
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -11,16 +23,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final GlobalKey<NavigatorState> navigatorKey =  GlobalKey<NavigatorState>();
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
     return MaterialApp(
       title: "Health App",
-      initialRoute:AppRoute.initialRoute ,
-      navigatorKey: navigatorKey ,
-      routes:AppRoute.getAppRoute() ,
+      debugShowCheckedModeBanner: false,
+      initialRoute: AppRoute.initialRoute,
+      navigatorKey: navigatorKey,
+      routes: AppRoute.getAppRoute(),
       theme: AppTheme.lightTheme,
     );
   }
 }
-
-

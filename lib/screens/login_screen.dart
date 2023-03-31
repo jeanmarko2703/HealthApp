@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: TextFormField(
                                 decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 10),
+                              contentPadding: EdgeInsets.only(left: 15),
                               border: InputBorder.none,
                               labelText: 'Email',
                             )),
@@ -64,17 +64,17 @@ class LoginScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: TextFormField(
                                 decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 10),
+                              contentPadding: EdgeInsets.only(left: 15),
                               border: InputBorder.none,
                               labelText: 'Contraseña',
                             )),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
-                                      context, 'homeScreen');
+                                      context, 'navigationScreen');
                                 },
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,
