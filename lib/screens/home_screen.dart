@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:health_app/theme/app_theme.dart';
 
-class PatientInformation {
-  String imagePath;
-  String name;
-  int age;
-  String disease;
-  String date;
+import '../models/patient_model.dart';
+import '../widgets/widgets.dart';
 
-  PatientInformation(
-      this.imagePath, this.name, this.age, this.disease, this.date);
-}
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -84,53 +78,7 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     itemCount: patients.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        width: size.width,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        height: 100,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Image.asset(
-                                patients[index].imagePath,
-                                height: 55,
-                                width: 55,
-                              ),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  patients[index].name,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text('${patients[index].age} años',
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500)),
-                                Text(
-                                  patients[index].disease,
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(0.5)),
-                                ),
-                                Text(patients[index].date,
-                                    style: TextStyle(
-                                        color: Colors.black.withOpacity(0.5))),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
+                      return PatientCard(size: size, patients: patients, index: index,);
                     }),
               ),
             ),
@@ -141,6 +89,8 @@ class HomeScreen extends StatelessWidget {
         ));
   }
 }
+
+
 
 class HeaderHome extends StatelessWidget {
   const HeaderHome({
