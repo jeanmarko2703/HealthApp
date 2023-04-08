@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:health_app/screens/sigin_screen.dart';
 
 import '../models/models.dart';
-import '../screens/screens.dart';
 
 class AppRoute {
-  static const initialRoute = "loginScreen";
+  static const initialRoute = "navigationScreen";
   static final menuOption = <MenuOption>[
     MenuOption(route: "homeScreen", name: "home", screen: const HomeScreen()),
     MenuOption(
-        route: "patientScreen", name: "patient", screen: const PatientScreen()),
+        route: "patientScreen", name: "patient", screen: const PatientListScreen()),
     MenuOption(
         route: "notificationScreen",
         name: "notification",
@@ -35,12 +34,15 @@ class AppRoute {
     appRoutes
         .addAll({"homeScreen": (BuildContext context) => const HomeScreen()});
     appRoutes.addAll(
-        {"patientScreen": (BuildContext context) => const PatientScreen()});
+        {"patientListScreen": (BuildContext context) => const PatientListScreen()});
     appRoutes.addAll({
       "notificationScreen": (BuildContext context) => const NotificationScreen()
     });
     appRoutes.addAll(
         {"settingsScreen": (BuildContext context) => const SettingsScreen()});
+
+        appRoutes.addAll(
+        {"patientInformationScreen": (BuildContext context) => const PatientInformationScreen()});
 
     return appRoutes;
   }

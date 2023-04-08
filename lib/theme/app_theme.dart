@@ -8,7 +8,8 @@ class AppTheme {
   // static const backgroundColor = Color.fromRGBO(246, 246, 249, 1);
 
   static final ThemeData lightTheme = ThemeData.light().copyWith(
+      scaffoldBackgroundColor: primary,
+      appBarTheme: const AppBarTheme(color: Colors.white)
       //color primario
-
       );
 }

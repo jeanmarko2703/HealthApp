@@ -5,8 +5,6 @@ import 'package:health_app/theme/app_theme.dart';
 import '../models/patient_model.dart';
 import '../widgets/widgets.dart';
 
-
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -16,35 +14,9 @@ class HomeScreen extends StatelessWidget {
     const String userName = 'Jean Marko Aguirre';
     final List<String> medicalInstitutions = ['Stella Maris', 'Montesur'];
     const int patientNumber = 10;
-    final List<PatientInformation> patients = [
-      PatientInformation(
-          'assets/patientes_example/patient_1.png',
-          'Maria Rosa Lopez Aguilar',
-          30,
-          'Cancer de mama - Etapa 3',
-          'Lunes 29 sep 3:00 pm - 3:30 pm'),
-      PatientInformation(
-          'assets/patientes_example/patient_2.png',
-          'Romina Isabel Sanchez ',
-          28,
-          'Cancer de mama - Etapa 2',
-          'Lunes 29 sep 3:00 pm - 3:30 pm'),
-      PatientInformation(
-          'assets/patientes_example/patient_3.png',
-          'Emma Alba Garcia Rodriguez',
-          35,
-          'Cancer de mama - Etapa 3',
-          'Lunes 2 oct 10:00 am - 11:30 am'),
-      PatientInformation(
-          'assets/patientes_example/patient_4.png',
-          'Maria Paula Diaz Hernandez',
-          38,
-          'Cancer de mama - Etapa 2',
-          'Lunes 2 oct 3:00 pm - 3:30 pm'),
-    ];
+   
 
     return Scaffold(
-        backgroundColor: AppTheme.primary,
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 0,
@@ -78,7 +50,11 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     itemCount: patients.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PatientCard(size: size, patients: patients, index: index,);
+                      return PatientCard(
+                        size: size,
+                        patients: patients,
+                        index: index,
+                      );
                     }),
               ),
             ),
@@ -89,8 +65,6 @@ class HomeScreen extends StatelessWidget {
         ));
   }
 }
-
-
 
 class HeaderHome extends StatelessWidget {
   const HeaderHome({
