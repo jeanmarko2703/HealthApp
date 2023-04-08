@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "346071504861",
+    "firebase_url": "https://healthapp-d8ee1-default-rtdb.firebaseio.com",
+    "project_id": "healthapp-d8ee1",
+    "storage_bucket": "healthapp-d8ee1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346071504861:android:fa33016b99ecb9a94b0834",
+        "android_client_info": {
+          "package_name": "com.example.health_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346071504861-jpke9esil6hmh3o6jjbme4755faslvp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACfHYRa5wsO0hU33nJG68Q3HCEcn4KLVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346071504861-jpke9esil6hmh3o6jjbme4755faslvp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346071504861:android:c2afe09ef28581644b0834",
+        "android_client_info": {
+          "package_name": "com.jeanaguirre.healthapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346071504861-jpke9esil6hmh3o6jjbme4755faslvp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACfHYRa5wsO0hU33nJG68Q3HCEcn4KLVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346071504861-jpke9esil6hmh3o6jjbme4755faslvp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

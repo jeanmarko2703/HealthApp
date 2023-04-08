@@ -14,13 +14,15 @@ class HomeScreen extends StatelessWidget {
     const String userName = 'Jean Marko Aguirre';
     final List<String> medicalInstitutions = ['Stella Maris', 'Montesur'];
     const int patientNumber = 10;
-   
 
     return Scaffold(
         appBar: AppBar(
-          elevation: 0,
           toolbarHeight: 0,
-          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(0),
+            ),
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -57,7 +57,7 @@ class PatientListScreen extends StatelessWidget {
                   itemCount: patients.length,
                   itemBuilder: (BuildContext context, int index) {
                     return PatientCard(
-                        size: size, patients: patients, index: index);
+                        size: size, patients: patients, index: index, );
                   }),
             ),
           ],

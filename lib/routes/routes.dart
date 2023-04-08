@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/helpers/save_account_helper.dart';
 import 'package:health_app/screens/sigin_screen.dart';
 
 import '../models/models.dart';
 
 class AppRoute {
-  static const initialRoute = "navigationScreen";
+  static const initialRoute = "saveAccount";
   static final menuOption = <MenuOption>[
     MenuOption(route: "homeScreen", name: "home", screen: const HomeScreen()),
     MenuOption(
@@ -43,6 +44,8 @@ class AppRoute {
 
         appRoutes.addAll(
         {"patientInformationScreen": (BuildContext context) => const PatientInformationScreen()});
+         appRoutes.addAll(
+        {"saveAccount": (BuildContext context) => const SaveAccount()});
 
     return appRoutes;
   }

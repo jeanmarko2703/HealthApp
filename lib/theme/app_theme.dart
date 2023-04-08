@@ -17,6 +17,16 @@ class AppTheme {
             bottom: Radius.circular(20),
           ),
         ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          // minimumSize:
+          //     medicalInstitutions.length - 1 < index
+          //         ? const Size(5, 5)
+          //         : null,
+          elevation: 0,
+          backgroundColor: AppTheme.buttonLabelColor,
+        ),
       )
       //color primario
       );
