@@ -19,12 +19,7 @@ class PatientListScreen extends StatelessWidget {
           'Lista de pacientes',
           style: TextStyle(color: Colors.black),
         ),
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20),
-          ),
-        ),
+
         actions: [
           GestureDetector(
             onTap: () =>

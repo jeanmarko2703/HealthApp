@@ -9,7 +9,15 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData.light().copyWith(
       scaffoldBackgroundColor: primary,
-      appBarTheme: const AppBarTheme(color: Colors.white)
+      appBarTheme: const AppBarTheme(
+        color: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
+      )
       //color primario
       );
 }
