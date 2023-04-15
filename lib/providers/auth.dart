@@ -60,8 +60,8 @@ class AuthProvider extends ChangeNotifier {
     await _auth.signOut();
   }
 
-  Future<String> getIdToken() async {
-    return _auth.currentUser!.getIdToken();
+  Future<String?> getIdToken() async {
+    return _auth.currentUser != null ? _auth.currentUser!.getIdToken() : null;
   }
 
   Future<IdTokenResult?> getIdTokenResult() async {
