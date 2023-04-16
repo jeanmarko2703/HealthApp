@@ -8,6 +8,7 @@ class AddPatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final genderController = TextEditingController();
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -18,54 +19,103 @@ class AddPatientScreen extends StatelessWidget {
         body: PageContainer(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircleAvatar(
-                    radius: 40,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextFormField(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Genero'),
-                    Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TextFormField(
-                          cursorColor: Colors.grey,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
+                    const CircleAvatar(
+                      backgroundColor: AppTheme.buttonLabelColor,
+                      radius: 35,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomInput(
+                            title: 'Nombre *',
+                            controller: genderController,
                           ),
-                        )),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              TextFormField(),
-              TextFormField(),
-            ],
+                CustomInput(
+                  title: 'Genero *',
+                  controller: genderController,
+                ),
+                CustomInput(
+                  title: 'Edad *',
+                  controller: genderController,
+                ),
+                CustomInput(
+                  title: 'DNI',
+                  controller: genderController,
+                ),
+                CustomInput(
+                  title: 'Tipo de cancer',
+                  controller: genderController,
+                ),
+                CustomInput(
+                  title: 'Próxima cita *',
+                  controller: genderController,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    onPressed: () => null, child: const Text('Guardar'))
+              ],
+            ),
           ),
         )));
+  }
+}
+
+class CustomInput extends StatelessWidget {
+  const CustomInput({
+    super.key,
+    required this.title,
+    required this.controller,
+  });
+  final String title;
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(title),
+          Container(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(10)),
+              child: TextFormField(
+                controller: controller,
+                cursorColor: Colors.grey,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+              )),
+        ],
+      ),
+    );
   }
 }
