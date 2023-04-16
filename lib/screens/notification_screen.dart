@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/theme/app_theme.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Notificaciones',
-          style: TextStyle(color: Colors.black),
+          style: AppTheme.titleStyleLight,
         ),
       ),
       body: Center(

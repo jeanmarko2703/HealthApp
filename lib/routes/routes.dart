@@ -5,11 +5,13 @@ import 'package:health_app/screens/sigin_screen.dart';
 import '../models/models.dart';
 
 class AppRoute {
-  static const initialRoute = "saveAccount";
+  static const initialRoute = "addPatientScreen";
   static final menuOption = <MenuOption>[
     MenuOption(route: "homeScreen", name: "home", screen: const HomeScreen()),
     MenuOption(
-        route: "patientScreen", name: "patient", screen: const PatientListScreen()),
+        route: "patientScreen",
+        name: "patient",
+        screen: const PatientListScreen()),
     MenuOption(
         route: "notificationScreen",
         name: "notification",
@@ -34,18 +36,24 @@ class AppRoute {
     });
     appRoutes
         .addAll({"homeScreen": (BuildContext context) => const HomeScreen()});
-    appRoutes.addAll(
-        {"patientListScreen": (BuildContext context) => const PatientListScreen()});
+    appRoutes.addAll({
+      "patientListScreen": (BuildContext context) => const PatientListScreen()
+    });
     appRoutes.addAll({
       "notificationScreen": (BuildContext context) => const NotificationScreen()
     });
     appRoutes.addAll(
         {"settingsScreen": (BuildContext context) => const SettingsScreen()});
+    appRoutes.addAll({
+      "addPatientScreen": (BuildContext context) => const AddPatientScreen()
+    });
 
-        appRoutes.addAll(
-        {"patientInformationScreen": (BuildContext context) => const PatientInformationScreen()});
-         appRoutes.addAll(
-        {"saveAccount": (BuildContext context) => const SaveAccount()});
+    appRoutes.addAll({
+      "patientInformationScreen": (BuildContext context) =>
+          const PatientInformationScreen()
+    });
+    appRoutes
+        .addAll({"saveAccount": (BuildContext context) => const SaveAccount()});
 
     return appRoutes;
   }

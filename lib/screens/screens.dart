@@ -1,3 +1,5 @@
+export 'package:health_app/screens/add_patient_screen.dart';
+
 export 'package:health_app/screens/patient_list_screen.dart';
 export 'package:health_app/screens/patient_information_screen.dart';
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/theme/app_theme.dart';
 
 import '../models/patient_model.dart';
+import '../widgets/widgets.dart';
 
 class PatientInformationScreen extends StatelessWidget {
   const PatientInformationScreen({Key? key}) : super(key: key);
@@ -15,14 +17,11 @@ class PatientInformationScreen extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Text(
             'Información de paciente',
-            style: TextStyle(color: Colors.black),
+            style: AppTheme.titleStyleLight,
           ),
         ),
         body: SafeArea(
-          child: Container(
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20)),
+          child: PageContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -17,13 +17,12 @@ class PatientListScreen extends StatelessWidget {
         // backgroundColor: Colors.transparent,
         title: const Text(
           'Lista de pacientes',
-          style: TextStyle(color: Colors.black),
+          style: AppTheme.titleStyleLight,
         ),
 
         actions: [
           GestureDetector(
-            onTap: () =>
-                Navigator.pushNamed(context, 'patientInformationScreen'),
+            onTap: () => Navigator.pushNamed(context, 'addPatientScreen'),
             child: Container(
               margin: const EdgeInsets.only(right: 30, bottom: 10, top: 10),
               height: 40,
@@ -57,7 +56,10 @@ class PatientListScreen extends StatelessWidget {
                   itemCount: patients.length,
                   itemBuilder: (BuildContext context, int index) {
                     return PatientCard(
-                        size: size, patients: patients, index: index, );
+                      size: size,
+                      patients: patients,
+                      index: index,
+                    );
                   }),
             ),
           ],

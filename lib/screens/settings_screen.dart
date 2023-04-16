@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/theme/app_theme.dart';
 
 import '../providers/auth.dart';
 
@@ -11,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Ajustes',
-          style: TextStyle(color: Colors.black),
+          style: AppTheme.titleStyleLight,
         ),
       ),
       body: Padding(
