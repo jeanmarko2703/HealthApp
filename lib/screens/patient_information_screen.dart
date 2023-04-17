@@ -114,25 +114,34 @@ class HeaderInformation extends StatelessWidget {
               width: 55,
             ),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                patient.name,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
-              Text('${patient.age} años',
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  patient.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w500)),
-              Text(
-                patient.disease,
-                style: TextStyle(color: Colors.black.withOpacity(0.5)),
-              ),
-              // Text(patient.date,
-              //     style: TextStyle(color: Colors.black.withOpacity(0.5))),
-            ],
+                      fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+
+                Text('${patient.age} años',
+                    style: const TextStyle(
+                        fontSize: 13, fontWeight: FontWeight.w500)),
+
+                Text(
+                  patient.disease,
+                  style: TextStyle(color: Colors.black.withOpacity(0.5)),
+                ),
+                // Text(patient.date,
+                //     style: TextStyle(color: Colors.black.withOpacity(0.5))),
+              ],
+            ),
           )
         ],
       ),

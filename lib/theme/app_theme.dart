@@ -13,7 +13,7 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         color: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
-        toolbarTextStyle: TextStyle(color: Colors.black),
+        // toolbarTextStyle: TextStyle(color: Colors.black),
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
