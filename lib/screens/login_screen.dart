@@ -5,14 +5,25 @@ import 'package:health_app/theme/app_theme.dart';
 import '../providers/auth.dart';
 import '../providers/providers.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool errorMessage = false;
+  void _message() {
+    setState(() {
+      errorMessage = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final loginForm = Provider.of<LoginFormProvider>(context);
-
     const TextStyle titleStyle = TextStyle(
         color: Colors.white, fontSize: 35, fontWeight: FontWeight.w700);
     const TextStyle subTitleStyle = TextStyle(
@@ -99,6 +110,24 @@ class LoginScreen extends StatelessWidget {
                                   },
                                 ),
                               ),
+                              errorMessage
+                                  ? Column(
+                                      children: const [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          'Correo o contraseña incorrecta',
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    )
+                                  : const SizedBox(),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: ElevatedButton(
@@ -128,15 +157,14 @@ class LoginScreen extends StatelessWidget {
                                                     loginForm.email,
                                                     loginForm.password);
 
-                                            var token =
-                                                authProvider.getIdToken();
-
-                                            if (token != '' &&
+                                            if (access != null &&
                                                 context.mounted) {
-                                              print(token);
                                               uiProvider.selectedMenuOpt = 0;
                                               Navigator.pushReplacementNamed(
                                                   context, 'navigationScreen');
+                                              loginForm.isLoading = false;
+                                            } else {
+                                              _message();
                                               loginForm.isLoading = false;
                                             }
                                           },

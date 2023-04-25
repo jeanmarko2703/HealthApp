@@ -24,9 +24,13 @@ class SettingsScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {
-                await AuthProvider().signOut();
-                if (context.mounted) {
-                  Navigator.pushNamed(context, 'loginScreen');
+                try {
+                  await AuthProvider().signOut();
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, 'loginScreen');
+                  }
+                } catch (e) {
+                  print('el error fue: $e');
                 }
               },
               child: Container(

@@ -5,7 +5,7 @@ import 'package:health_app/screens/sigin_screen.dart';
 import '../models/models.dart';
 
 class AppRoute {
-  static const initialRoute = "navigationScreen";
+  static const initialRoute = "saveAccount";
   static final menuOption = <MenuOption>[
     MenuOption(route: "homeScreen", name: "home", screen: const HomeScreen()),
     MenuOption(
