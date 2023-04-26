@@ -27,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
                 try {
                   await AuthProvider().signOut();
                   if (context.mounted) {
-                    Navigator.pushNamed(context, 'loginScreen');
+                    Navigator.pushReplacementNamed(context, 'loginScreen');
                   }
                 } catch (e) {
                   print('el error fue: $e');
@@ -41,6 +41,9 @@ class SettingsScreen extends StatelessWidget {
                 child: Row(
                   children: const [
                     Icon(Icons.lock),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text('Cerrar Sesión'),
                     Expanded(child: SizedBox()),
                     Icon(Icons.arrow_forward_ios_rounded)

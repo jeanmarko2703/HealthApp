@@ -65,7 +65,7 @@ class SigninButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, "siginScreen");
+        Navigator.pushNamed(context, "signInScreen");
       },
       style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -76,8 +76,13 @@ class SigninButton extends StatelessWidget {
           ),
           textStyle:
               const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-      child:
-          const SizedBox(width: 300, child: Center(child: Text("Registrarse"))),
+      child: const SizedBox(
+          width: 300,
+          child: Center(
+              child: Text(
+            "Registrarse",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ))),
     );
   }
 }
@@ -103,7 +108,11 @@ class LoginButton extends StatelessWidget {
         Navigator.pushNamed(context, "loginScreen");
       },
       child: const SizedBox(
-          width: 300, child: Center(child: Text("Iniciar Sesión"))),
+          width: 300,
+          child: Center(
+              child: Text("Iniciar Sesión",
+                  style:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.w600)))),
     );
   }
 }

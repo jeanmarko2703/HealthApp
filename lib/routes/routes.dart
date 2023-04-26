@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/helpers/save_account_helper.dart';
-import 'package:health_app/screens/sigin_screen.dart';
+import 'package:health_app/screens/signin_screen.dart';
 
 import '../models/models.dart';
 
@@ -27,8 +27,8 @@ class AppRoute {
     appRoutes.addAll({
       "onboardingScreen": (BuildContext context) => const OnboardingScreen()
     });
-    appRoutes
-        .addAll({"siginScreen": (BuildContext context) => const SiginScreen()});
+    appRoutes.addAll(
+        {"signInScreen": (BuildContext context) => const SignInScreen()});
     appRoutes
         .addAll({"loginScreen": (BuildContext context) => const LoginScreen()});
     appRoutes.addAll({

@@ -43,7 +43,7 @@ class AddPatientScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CustomInput(
-                            title: 'Nombre *',
+                            title: const Text('Nombre *'),
                             controller: genderController,
                           ),
                         ],
@@ -52,23 +52,23 @@ class AddPatientScreen extends StatelessWidget {
                   ],
                 ),
                 CustomInput(
-                  title: 'Genero *',
+                  title: const Text('Genero *'),
                   controller: genderController,
                 ),
                 CustomInput(
-                  title: 'Edad *',
+                  title: const Text('Edad *'),
                   controller: genderController,
                 ),
                 CustomInput(
-                  title: 'DNI',
+                  title: const Text('DNI'),
                   controller: genderController,
                 ),
                 CustomInput(
-                  title: 'Tipo de cancer',
+                  title: const Text('Tipo de cancer'),
                   controller: genderController,
                 ),
                 CustomInput(
-                  title: 'Próxima cita *',
+                  title: const Text('Próxima cita *'),
                   controller: genderController,
                 ),
                 const SizedBox(
@@ -80,42 +80,5 @@ class AddPatientScreen extends StatelessWidget {
             ),
           ),
         )));
-  }
-}
-
-class CustomInput extends StatelessWidget {
-  const CustomInput({
-    super.key,
-    required this.title,
-    required this.controller,
-  });
-  final String title;
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(title),
-          Container(
-              margin: const EdgeInsets.only(top: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextFormField(
-                controller: controller,
-                cursorColor: Colors.grey,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                ),
-              )),
-        ],
-      ),
-    );
   }
 }

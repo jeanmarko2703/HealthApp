@@ -15,7 +15,7 @@ class _SaveAccountState extends State<SaveAccount> {
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      return const LoginScreen();
+      return const OnboardingScreen();
     } else {
       return const NavigationScreen();
     }

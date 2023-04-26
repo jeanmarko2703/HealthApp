@@ -27,6 +27,10 @@ class AppState extends StatelessWidget {
         create: (_) => LoginFormProvider(),
         lazy: true,
       ),
+      ChangeNotifierProvider(
+        create: (_) => SignInFormProvider(),
+        lazy: true,
+      ),
     ], child: const MyApp());
   }
 }
