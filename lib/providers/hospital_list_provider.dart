@@ -13,6 +13,7 @@ class HospitalListProvider with ChangeNotifier {
     try {
       _hospitalsList = (await database.getHospitalsList(user.uid))!;
       notifyListeners();
+      print('se actualizo');
     } catch (e) {
       print('error $e');
     }

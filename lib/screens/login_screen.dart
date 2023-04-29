@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: 10,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, 'onboardingScreen');
                   },
                   icon: Icon(
                     Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,

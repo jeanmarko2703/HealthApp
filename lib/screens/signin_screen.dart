@@ -56,7 +56,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(
+                                    context, 'onboardingScreen');
                               },
                               icon: Icon(
                                 Platform.isIOS

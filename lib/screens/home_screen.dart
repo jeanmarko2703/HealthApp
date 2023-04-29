@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     User? user = await authProvider.getUser();
-    hospitalsListProvider.updateHospitalsList(user!, database);
+    await hospitalsListProvider.updateHospitalsList(user!, database);
   }
 
   Future<void> getPatientsList() async {
@@ -69,10 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final patientListProvider =
-        Provider.of<PatientListProvider>(context, listen: false);
-    final hospitalsListProvider =
-        Provider.of<HospitalListProvider>(context, listen: false);
+    final patientListProvider = Provider.of<PatientListProvider>(context);
+    final hospitalsListProvider = Provider.of<HospitalListProvider>(context);
     final size = MediaQuery.of(context).size;
     final patientsList = patientListProvider.patientsList;
     List<HospitalModel> medicalInstitutions =
@@ -236,8 +234,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               setState);
                                                                           print(
                                                                               'el estado es: $loaderList');
-                                                                          Navigator.pop(
-                                                                              ctx);
+                                                                          if (name.text != '' &&
+                                                                              location.text != '') {
+                                                                            Navigator.pop(ctx);
+                                                                          }
                                                                         },
                                                               child: Text(!loaderList
                                                                   ? 'Guardar'
