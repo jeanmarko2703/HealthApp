@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 
-class SignInFormProvider extends ChangeNotifier {
+class PatientFormProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmationPassword = TextEditingController();
-  String nameValidatorError = '';
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController hospitalController = TextEditingController();
+
   String emailValidatorError = '';
   String passwordValidatorError = '';
-  String confirmationPasswordValidatorError = '';
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 

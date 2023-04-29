@@ -23,6 +23,12 @@ class AppState extends StatelessWidget {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => UiProvider()),
       ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ChangeNotifierProvider(create: (_) => PatientListProvider()),
+      ChangeNotifierProvider(create: (_) => HospitalListProvider()),
+      ChangeNotifierProvider(
+        create: (_) => PatientFormProvider(),
+        lazy: true,
+      ),
       ChangeNotifierProvider(
         create: (_) => LoginFormProvider(),
         lazy: true,

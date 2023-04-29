@@ -30,13 +30,19 @@ class PatientCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Image.asset(
-                patients[index].imagePath,
-                height: 55,
-                width: 55,
-              ),
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/grey_loader.gif',
+                  image: patients[index].photo,
+                  width: 55,
+                  height: 55,
+                )
+                //  Image.asset(
+                //   patients[index].imagePath,
+                //   height: 55,
+                //   width: 55,
+                // ),
+                ),
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,15 +52,15 @@ class PatientCard extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w500),
                 ),
-                Text('${patients[index].age} años',
+                Text('${patients[index].age} años - ${patients[index].gender}',
                     style: const TextStyle(
                         fontSize: 13, fontWeight: FontWeight.w500)),
                 Text(
-                  patients[index].disease,
+                  patients[index].hospital,
                   style: TextStyle(color: Colors.black.withOpacity(0.5)),
                 ),
-                Text(patients[index].date,
-                    style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                // Text(patients[index].,
+                //     style: TextStyle(color: Colors.black.withOpacity(0.5))),
               ],
             )
           ],

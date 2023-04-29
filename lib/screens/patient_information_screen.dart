@@ -108,10 +108,11 @@ class HeaderInformation extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Image.asset(
-              patient.imagePath,
-              height: 55,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/grey_loader.gif',
+              image: patient.photo,
               width: 55,
+              height: 55,
             ),
           ),
           Expanded(
@@ -135,7 +136,7 @@ class HeaderInformation extends StatelessWidget {
                         fontSize: 13, fontWeight: FontWeight.w500)),
 
                 Text(
-                  patient.disease,
+                  patient.gender,
                   style: TextStyle(color: Colors.black.withOpacity(0.5)),
                 ),
                 // Text(patient.date,

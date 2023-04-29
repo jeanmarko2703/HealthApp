@@ -205,6 +205,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                             if (access != null &&
                                                 context.mounted) {
+                                              print('el uid es: ${access.uid}');
+
                                               uiProvider.selectedMenuOpt = 0;
                                               Navigator.pushReplacementNamed(
                                                   context, 'navigationScreen');
