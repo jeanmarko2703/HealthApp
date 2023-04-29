@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/patient_model.dart';
+import '../theme/app_theme.dart';
 
 class PatientCard extends StatelessWidget {
   const PatientCard({
@@ -30,19 +32,42 @@ class PatientCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/grey_loader.gif',
-                  image: patients[index].photo,
-                  width: 55,
-                  height: 55,
-                )
-                //  Image.asset(
-                //   patients[index].imagePath,
-                //   height: 55,
-                //   width: 55,
-                // ),
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: patients[index].photo != ''
+                  ? CachedNetworkImage(
+                      imageUrl: patients[index].photo,
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 55,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.buttonLabelColor,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                  : const CircleAvatar(
+                      backgroundColor: AppTheme.buttonLabelColor,
+                      radius: 25,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      )),
+              //  Image.asset(
+              //   patients[index].imagePath,
+              //   height: 55,
+              //   width: 55,
+              // ),
+            ),
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

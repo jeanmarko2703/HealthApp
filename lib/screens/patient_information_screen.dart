@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:health_app/theme/app_theme.dart';
 
@@ -108,12 +109,35 @@ class HeaderInformation extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: FadeInImage.assetNetwork(
-              placeholder: 'assets/grey_loader.gif',
-              image: patient.photo,
-              width: 55,
-              height: 55,
-            ),
+            child: patient.photo != ''
+                ? CachedNetworkImage(
+                    imageUrl: patient.photo,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.buttonLabelColor,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )
+                : const CircleAvatar(
+                    backgroundColor: AppTheme.buttonLabelColor,
+                    radius: 25,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    )),
           ),
           Expanded(
             child: Column(
@@ -131,12 +155,12 @@ class HeaderInformation extends StatelessWidget {
                   height: 5,
                 ),
 
-                Text('${patient.age} años',
+                Text('${patient.age} años - ${patient.gender}',
                     style: const TextStyle(
                         fontSize: 13, fontWeight: FontWeight.w500)),
 
                 Text(
-                  patient.gender,
+                  patient.hospital,
                   style: TextStyle(color: Colors.black.withOpacity(0.5)),
                 ),
                 // Text(patient.date,

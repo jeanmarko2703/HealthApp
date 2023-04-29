@@ -79,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
         hospitalsListProvider.hospitalsList;
 
     if (userInformation.name == '') {
-      return const CircularProgressIndicator();
+      return const CircularProgressIndicator(
+        color: AppTheme.buttonLabelColor,
+      );
     }
 
     return Scaffold(
