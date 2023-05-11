@@ -1,3 +1,7 @@
+export 'package:health_app/screens/tumor_exam.dart';
+
+export 'package:health_app/screens/more_information_screen.dart';
+
 export 'package:health_app/screens/add_patient_screen.dart';
 
 export 'package:health_app/screens/patient_list_screen.dart';

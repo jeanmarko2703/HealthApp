@@ -1,5 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:health_app/theme/app_theme.dart';
 
 import '../models/patient_model.dart';
@@ -12,12 +14,13 @@ class PatientInformationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final PatientInformation patient =
         ModalRoute.of(context)!.settings.arguments as PatientInformation;
+    String tumorType = 'MALIGNO';
 
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Text(
-            'Información de paciente',
+            'Resumen del paciente',
             style: AppTheme.titleStyleLight,
           ),
         ),
@@ -36,52 +39,58 @@ class PatientInformationScreen extends StatelessWidget {
                       width: 20,
                     ),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text('Más información')),
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'moreInformationScreen',
+                              arguments: patient);
+                        },
+                        child: const Text('Más información')),
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Cita próxima:',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        'Lunes 2 oct 10:00 am - 11:30 am',
+                        patient.date ?? 'No presenta cita',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         'Tratamiento actual:',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        'Quimioterápia',
+                        patient.treatment ?? 'No se ha añadido tratamiento',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        'Esperanza de vida::',
+                      const Text(
+                        'Analisis del sistema',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        '2 años',
+                        patient.tumorType != null
+                            ? 'Tipo de tumor: ${patient.tumorType}'
+                            : 'No se ha realizado análisis de tumor',
                       ),
                     ],
                   ),
