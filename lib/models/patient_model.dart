@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class PatientInformation {
+  final String? doc;
   final String name;
   final String gender;
   final String hospital;
@@ -17,7 +18,8 @@ class PatientInformation {
   final List<String>? gallery;
 
   PatientInformation(
-      {required this.name,
+      {this.doc,
+      required this.name,
       required this.gender,
       required this.hospital,
       required this.age,
@@ -39,6 +41,7 @@ class PatientInformation {
 
   factory PatientInformation.fromJson(Map<String, dynamic> json) =>
       PatientInformation(
+          doc: json["doc"],
           name: json["name"],
           gender: json["gender"],
           hospital: json["hospital"],
@@ -55,6 +58,7 @@ class PatientInformation {
           gallery: json['gallery']);
 
   Map<String, dynamic> toJson() => {
+        "doc": doc,
         "name": name,
         "gender": gender,
         "hospital": hospital,

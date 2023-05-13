@@ -1,5 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:health_app/providers/auth.dart';
 import 'package:health_app/providers/providers.dart';
 import 'package:health_app/routes/routes.dart';
@@ -26,8 +28,10 @@ class AppState extends StatelessWidget {
       ChangeNotifierProvider(create: (_) => PatientListProvider()),
       ChangeNotifierProvider(create: (_) => HospitalListProvider()),
       ChangeNotifierProvider(
+        create: (_) => TumorExamFormProvider(),
+      ),
+      ChangeNotifierProvider(
         create: (_) => PatientFormProvider(),
-        lazy: true,
       ),
       ChangeNotifierProvider(
         create: (_) => LoginFormProvider(),

@@ -14,7 +14,7 @@ class PatientInformationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final PatientInformation patient =
         ModalRoute.of(context)!.settings.arguments as PatientInformation;
-    String tumorType = 'MALIGNO';
+    print('el doc es: ${patient.doc}');
 
     return Scaffold(
         appBar: AppBar(

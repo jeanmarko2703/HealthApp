@@ -71,6 +71,19 @@ class DatabaseService {
     }
   }
 
+  Future<void> updatePatientlInfo(
+      String uid, PatientInformation patient, String doc) async {
+    try {
+      await _usersCollection
+          .doc(uid)
+          .collection('patients')
+          .doc(doc)
+          .update(patient.toJson());
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   Future<List<PatientInformation>?> getPatientsList(String uid) async {
     CollectionReference usersRef = FirebaseFirestore.instance
         .collection('users')
@@ -81,8 +94,25 @@ class DatabaseService {
     await usersRef.get().then((QuerySnapshot querySnapshot) {
       for (var documentSnapshot in querySnapshot.docs) {
         print(documentSnapshot.data());
-        listPatients.add(PatientInformation.fromJson(
-            documentSnapshot.data() as Map<String, dynamic>));
+        PatientInformation patientTemporal = PatientInformation.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
+
+        listPatients.add(PatientInformation(
+            doc: documentSnapshot.id,
+            name: patientTemporal.name,
+            gender: patientTemporal.gender,
+            hospital: patientTemporal.hospital,
+            age: patientTemporal.age,
+            id: patientTemporal.id,
+            photo: patientTemporal.photo,
+            initialDate: patientTemporal.initialDate,
+            date: patientTemporal.date,
+            riskFactors: patientTemporal.riskFactors,
+            tumorType: patientTemporal.tumorType,
+            pathology: patientTemporal.pathology,
+            treatment: patientTemporal.treatment,
+            aditionalInformation: patientTemporal.aditionalInformation,
+            gallery: patientTemporal.gallery));
       }
     });
 

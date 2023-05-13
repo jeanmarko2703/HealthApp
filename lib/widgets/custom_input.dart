@@ -12,6 +12,7 @@ class CustomInput extends StatelessWidget {
     this.suffix,
     this.prefixIcon,
     this.obscureText = false,
+    this.keyboardType,
   });
   final Widget title;
   final TextEditingController controller;
@@ -20,6 +21,7 @@ class CustomInput extends StatelessWidget {
   final Widget? suffix;
   final IconData? prefixIcon;
   final bool obscureText;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class CustomInput extends StatelessWidget {
                   color: backgroundColor.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(10)),
               child: TextFormField(
+                keyboardType: keyboardType,
                 obscureText: obscureText,
                 controller: controller,
                 cursorColor: Colors.grey,

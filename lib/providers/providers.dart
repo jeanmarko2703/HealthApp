@@ -1,3 +1,5 @@
+export 'package:health_app/providers/tumor_exam_form.dart';
+
 export 'package:health_app/providers/patient_form_provider.dart';
 
 export 'package:health_app/providers/hospital_list_provider.dart';

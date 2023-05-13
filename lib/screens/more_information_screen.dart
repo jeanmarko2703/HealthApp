@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/models.dart';
-import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
 
@@ -13,16 +12,6 @@ class MoreInformationScreen extends StatefulWidget {
 }
 
 class _MoreInformationScreenState extends State<MoreInformationScreen> {
-  void loadingPrediction() {
-    DiagnosisPrediction().makeDiagnosisPrediction(DiagnosisModel(
-        textureMean: 13.98,
-        perimeterMean: 93.86,
-        smoothnessMean: 0.10990,
-        concavePointsMean: 0.06495,
-        symmetryMean: 0.1650,
-        fractalDimensionMean: 0.06121));
-  }
-
   @override
   void initState() {
     // TODO: implement initState
