@@ -14,7 +14,8 @@ class PatientListScreen extends StatefulWidget {
 }
 
 class _PatientListScreenState extends State<PatientListScreen> {
-  @override
+  List<PatientInformation> patientsList=[];
+    @override
   void initState() {
     // TODO: implement initState
     super.initState();
