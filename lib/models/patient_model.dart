@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PatientInformation {
   final String? doc;
   final String name;
@@ -9,7 +11,7 @@ class PatientInformation {
   final int id;
   final String photo;
   final String? initialDate;
-  final String? date;
+  final DateTime? date;
   final List<String>? riskFactors;
   final String? tumorType;
   final String? pathology;
@@ -49,7 +51,10 @@ class PatientInformation {
           id: json["id"],
           photo: json["photo"],
           initialDate: json['initialDate'],
-          date: json['date'],
+          date: json['date'] != null
+              ? (json['date'] as Timestamp)
+                  .toDate() // convert Timestamp to DateTime
+              : null,
           riskFactors: json['riskFactor'],
           tumorType: json['tumorType'],
           pathology: json['pathology'],

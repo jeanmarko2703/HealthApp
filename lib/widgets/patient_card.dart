@@ -1,5 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/patient_model.dart';
 import '../theme/app_theme.dart';
@@ -19,8 +21,13 @@ class PatientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, 'patientInformationScreen',
-          arguments: patients[index]),
+      onTap: () async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('currentPatient', patients[index].doc ?? '');
+        print(patients[index].toJson());
+
+        Navigator.pushNamed(context, 'patientInformationScreen');
+      },
       child: Container(
         width: size.width,
         margin: const EdgeInsets.only(bottom: 10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:health_app/theme/app_theme.dart';
 
 import '../providers/auth.dart';
@@ -45,6 +46,31 @@ class SettingsScreen extends StatelessWidget {
                       width: 10,
                     ),
                     Text('Cerrar Sesión'),
+                    Expanded(child: SizedBox()),
+                    Icon(Icons.arrow_forward_ios_rounded)
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: () async {
+                Navigator.pushNamed(context, 'profileScreen');
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: const [
+                    Icon(Icons.person),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Perfil de usuario'),
                     Expanded(child: SizedBox()),
                     Icon(Icons.arrow_forward_ios_rounded)
                   ],

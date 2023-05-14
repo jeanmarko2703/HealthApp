@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../models/models.dart';
+import '../providers/auth.dart';
 import '../providers/providers.dart';
 import '../services/services.dart';
 import '../widgets/widgets.dart';
@@ -17,6 +20,11 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
   @override
   Widget build(BuildContext context) {
     final examForm = Provider.of<TumorExamFormProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
+    final patientListProvider =
+        Provider.of<PatientListProvider>(context, listen: true);
+    final PatientInformation patient =
+        ModalRoute.of(context)!.settings.arguments as PatientInformation;
 
     //   void loadingPrediction( DiagnosisModel diagnosis) {
     //   DiagnosisPrediction().makeDiagnosisPrediction(diagnosis
@@ -318,10 +326,62 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                             Text('El resultado es: $result'),
                                         actions: [
                                           ElevatedButton(
-                                              onPressed: () {
-                                                examForm.cleanControllers();
-                                                Navigator.pop(dxcontext);
-                                                Navigator.pop(context);
+                                              onPressed: () async {
+                                                try {
+                                                  PatientInformation
+                                                      newPatient =
+                                                      PatientInformation(
+                                                          doc: patient.doc,
+                                                          name: patient.name,
+                                                          gender:
+                                                              patient.gender,
+                                                          hospital:
+                                                              patient.hospital,
+                                                          age: patient.age,
+                                                          id: patient.id,
+                                                          photo: patient.photo,
+                                                          initialDate: patient
+                                                              .initialDate,
+                                                          date: patient.date,
+                                                          riskFactors: patient
+                                                              .riskFactors,
+                                                          tumorType: result,
+                                                          pathology:
+                                                              patient.pathology,
+                                                          treatment:
+                                                              patient.treatment,
+                                                          aditionalInformation:
+                                                              patient
+                                                                  .aditionalInformation,
+                                                          gallery:
+                                                              patient.gallery);
+                                                  User? user =
+                                                      await authProvider
+                                                          .getUser();
+                                                  final DatabaseService
+                                                      database =
+                                                      DatabaseService();
+
+                                                  await database
+                                                      .updatePatientlInfo(
+                                                          user!.uid,
+                                                          newPatient,
+                                                          patient.doc ?? '');
+                                                  patientListProvider
+                                                      .updatePatientsList(
+                                                          user, database);
+                                                  // setState(() {
+                                                  //   patient = newPatient;
+                                                  // });
+
+                                                  if (mounted) {
+                                                    Navigator.pop(dxcontext);
+                                                    Navigator.pop(context);
+                                                  }
+                                                  examForm.cleanControllers();
+                                                } catch (e) {
+                                                  print(e);
+                                                }
                                               },
                                               child: const Text('Aceptar'))
                                         ],

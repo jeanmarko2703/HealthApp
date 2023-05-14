@@ -1,3 +1,5 @@
+export 'package:health_app/screens/profile_screen.dart';
+
 export 'package:health_app/screens/tumor_exam_screen.dart';
 
 export 'package:health_app/screens/more_information_screen.dart';

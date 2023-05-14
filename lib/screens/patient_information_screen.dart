@@ -1,20 +1,58 @@
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:health_app/theme/app_theme.dart';
+import 'package:health_app/models/models.dart';
 
-import '../models/patient_model.dart';
+import '../providers/auth.dart';
+import '../providers/providers.dart';
+import '../services/database_service.dart';
+import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
 
-class PatientInformationScreen extends StatelessWidget {
+class PatientInformationScreen extends StatefulWidget {
   const PatientInformationScreen({Key? key}) : super(key: key);
 
   @override
+  State<PatientInformationScreen> createState() =>
+      _PatientInformationScreenState();
+}
+
+class _PatientInformationScreenState extends State<PatientInformationScreen> {
+  PatientInformation patient = PatientInformation(
+      name: '', gender: '', hospital: '', age: 0, id: 0, photo: '');
+
+  Future<void> getInfo() async {
+    final patientListProvider = Provider.of<PatientListProvider>(context);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    patient = await patientListProvider
+        .getUserInfo(prefs.getString('currentPatient') ?? '');
+    setState(() {
+      patient;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    getInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final PatientInformation patient =
-        ModalRoute.of(context)!.settings.arguments as PatientInformation;
-    print('el doc es: ${patient.doc}');
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
+    final patientListProvider =
+        Provider.of<PatientListProvider>(context, listen: true);
+
+    if (patient.name == '') {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -34,7 +72,58 @@ class PatientInformationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        onPressed: () {}, child: const Text('Agendar Cita')),
+                        onPressed: () async {
+                          DateTime? date = DateTime(1900);
+                          FocusScope.of(context).requestFocus(FocusNode());
+
+                          date = await showDatePicker(
+                              cancelText: 'Cancelar',
+                              confirmText: 'Aceptar',
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2100));
+
+                          if (date != null) {
+                            try {
+                              PatientInformation newPatient =
+                                  PatientInformation(
+                                      doc: patient.doc,
+                                      name: patient.name,
+                                      gender: patient.gender,
+                                      hospital: patient.hospital,
+                                      age: patient.age,
+                                      id: patient.id,
+                                      photo: patient.photo,
+                                      initialDate: patient.initialDate,
+                                      date: date,
+                                      riskFactors: patient.riskFactors,
+                                      tumorType: patient.tumorType,
+                                      pathology: patient.pathology,
+                                      treatment: patient.treatment,
+                                      aditionalInformation:
+                                          patient.aditionalInformation,
+                                      gallery: patient.gallery);
+                              User? user = await authProvider.getUser();
+                              final DatabaseService database =
+                                  DatabaseService();
+                              patientListProvider.isLoading = true;
+
+                              await database.updatePatientlInfo(
+                                  user!.uid, newPatient, patient.doc ?? '');
+                              patientListProvider.updatePatientsList(
+                                  user, database);
+
+                              print(
+                                  DateFormat.yMMMMEEEEd().format(date.toUtc()));
+                              print('hola');
+                            } catch (e) {
+                              print(e);
+                            }
+                            patientListProvider.isLoading = false;
+                          }
+                        },
+                        child: const Text('Agendar Cita')),
                     const SizedBox(
                       width: 20,
                     ),
@@ -60,7 +149,12 @@ class PatientInformationScreen extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        patient.date ?? 'No presenta cita',
+                        patientListProvider.isLoading
+                            ? 'Cargando...'
+                            : patient.date != null
+                                ? DateFormat.yMMMMEEEEd()
+                                    .format(patient.date!.toUtc())
+                                : 'No presenta cita',
                       ),
                       const SizedBox(
                         height: 20,

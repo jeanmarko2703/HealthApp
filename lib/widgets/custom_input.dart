@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 class CustomInput extends StatelessWidget {
-  const CustomInput({
-    super.key,
-    required this.title,
-    required this.controller,
-    this.validator,
-    this.backgroundColor = Colors.grey,
-    this.suffix,
-    this.prefixIcon,
-    this.obscureText = false,
-    this.keyboardType,
-  });
+  const CustomInput(
+      {super.key,
+      required this.title,
+      required this.controller,
+      this.validator,
+      this.backgroundColor = Colors.grey,
+      this.suffix,
+      this.prefixIcon,
+      this.obscureText = false,
+      this.keyboardType,
+      this.maxLines});
   final Widget title;
   final TextEditingController controller;
   final String? Function(String?)? validator;
@@ -22,6 +22,7 @@ class CustomInput extends StatelessWidget {
   final IconData? prefixIcon;
   final bool obscureText;
   final TextInputType? keyboardType;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class CustomInput extends StatelessWidget {
                 obscureText: obscureText,
                 controller: controller,
                 cursorColor: Colors.grey,
+                maxLines: maxLines,
                 // onChanged: (value) => controller.text = value,
                 validator: validator,
                 decoration: InputDecoration(

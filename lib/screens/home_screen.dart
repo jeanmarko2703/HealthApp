@@ -1,11 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:health_app/models/models.dart';
 import 'package:health_app/theme/app_theme.dart';
 
 import '../providers/auth.dart';
 import '../providers/providers.dart';
+import '../services/database_service.dart';
 import '../services/services.dart';
 import '../widgets/widgets.dart';
 
@@ -20,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final DatabaseService database = DatabaseService();
   UserModel userInformation = UserModel(email: '', name: '');
   bool loaderList = false;
+  List<PatientInformation> patientsList = [];
+  List<PatientInformation> secondPatientsList = [];
 
   void changeLoaderState(setState) {
     setState(() {
@@ -27,12 +33,31 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void instituteListPatient(String hospitalName) {
+    List<PatientInformation> tempPatientsList = [];
+
+    for (var element in secondPatientsList) {
+      if (element.hospital == hospitalName) {
+        tempPatientsList.add(element);
+      }
+    }
+    patientsList = tempPatientsList;
+
+    setState(() {
+      patientsList;
+    });
+  }
+
   Future<void> getUserInformation() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     User? user = await authProvider.getUser();
     if (user != null) {
       try {
         userInformation = (await database.getUserInfo(user.uid))!;
+        await prefs.setString('name', userInformation.name);
+        await prefs.setString('email', userInformation.email);
+
         setState(() {
           userInformation;
         });
@@ -56,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<PatientListProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     User? user = await authProvider.getUser();
-    patientListProvider.updatePatientsList(user!, database);
+    patientsList =
+        await patientListProvider.updatePatientsList(user!, database) ?? [];
   }
 
   @override
@@ -72,7 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final patientListProvider = Provider.of<PatientListProvider>(context);
     final hospitalsListProvider = Provider.of<HospitalListProvider>(context);
     final size = MediaQuery.of(context).size;
-    final patientsList = patientListProvider.patientsList;
+    secondPatientsList = patientListProvider.patientsList;
+
+    // patientsList = patientListProvider.patientsList;
     List<HospitalModel> medicalInstitutions =
         hospitalsListProvider.hospitalsList;
 
@@ -147,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               AppTheme.buttonLabelColor,
                                         ),
                                         onPressed: () {
-                                          medicalInstitutions.length - 1 < index
+                                          medicalInstitutions.length == index
                                               ? showDialog(
                                                   context: context,
                                                   builder: (BuildContext ctx) {
@@ -246,7 +274,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       );
                                                     });
                                                   })
-                                              : null;
+                                              : instituteListPatient(
+                                                  medicalInstitutions[index]
+                                                      .name);
                                         },
                                         child: medicalInstitutions.length - 1 <
                                                 index

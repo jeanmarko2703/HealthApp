@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/models.dart';
+import '../providers/auth.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
 
@@ -12,19 +18,38 @@ class MoreInformationScreen extends StatefulWidget {
 }
 
 class _MoreInformationScreenState extends State<MoreInformationScreen> {
+  PatientInformation patient = PatientInformation(
+      name: '', gender: '', hospital: '', age: 0, id: 0, photo: '');
+
+  Future<void> getInfo() async {
+    final patientListProvider = Provider.of<PatientListProvider>(context);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    patient = await patientListProvider
+        .getUserInfo(prefs.getString('currentPatient') ?? '');
+    setState(() {
+      patient;
+    });
+  }
+
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    getInfo();
   }
 
   @override
   Widget build(BuildContext context) {
-    final PatientInformation patient =
-        ModalRoute.of(context)!.settings.arguments as PatientInformation;
+    if (patient.name == '') {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
+    final patientListProvider =
+        Provider.of<PatientListProvider>(context, listen: true);
     final size = MediaQuery.of(context).size;
     List<String> riskfactors = ['Fumador', 'Sobrepeso'];
-    String tumorType = 'MALIGNO';
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black),
@@ -44,7 +69,8 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'tumorExamScreen');
+                            Navigator.pushNamed(context, 'tumorExamScreen',
+                                arguments: patient);
                           },
                           child: const Text('Tipo de tumor')),
                       ElevatedButton(
@@ -108,7 +134,9 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                           height: 20,
                         ),
                         Text(
-                          'Tipo de tumor: ${patient.tumorType}',
+                          patient.tumorType != null
+                              ? 'Tipo de tumor: ${patient.tumorType}'
+                              : 'No se ha realizado análisis de tumor',
                         ),
                         const SizedBox(
                           height: 20,
@@ -121,7 +149,87 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                                   fontWeight: FontWeight.w600, fontSize: 18),
                             ),
                             IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.edit))
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext dxcontext) {
+                                        TextEditingController treatment =
+                                            TextEditingController();
+                                        treatment.text =
+                                            patient.treatment ?? '';
+
+                                        return AlertDialog(
+                                          title:
+                                              const Text('Tratamiento actual'),
+                                          content: CustomInput(
+                                            title: const Text('Tratamiento'),
+                                            controller: treatment,
+                                          ),
+                                          actions: [
+                                            ElevatedButton(
+                                                onPressed: () async {
+                                                  try {
+                                                    PatientInformation
+                                                        newPatient =
+                                                        PatientInformation(
+                                                            doc: patient.doc,
+                                                            name: patient.name,
+                                                            gender:
+                                                                patient.gender,
+                                                            hospital: patient
+                                                                .hospital,
+                                                            age: patient.age,
+                                                            id: patient.id,
+                                                            photo:
+                                                                patient.photo,
+                                                            initialDate: patient
+                                                                .initialDate,
+                                                            date: patient.date,
+                                                            riskFactors: patient
+                                                                .riskFactors,
+                                                            tumorType: patient
+                                                                .tumorType,
+                                                            pathology: patient
+                                                                .pathology,
+                                                            treatment:
+                                                                treatment.text,
+                                                            aditionalInformation:
+                                                                patient
+                                                                    .aditionalInformation,
+                                                            gallery: patient
+                                                                .gallery);
+                                                    User? user =
+                                                        await authProvider
+                                                            .getUser();
+                                                    final DatabaseService
+                                                        database =
+                                                        DatabaseService();
+
+                                                    await database
+                                                        .updatePatientlInfo(
+                                                            user!.uid,
+                                                            newPatient,
+                                                            patient.doc ?? '');
+                                                    patientListProvider
+                                                        .updatePatientsList(
+                                                            user, database);
+                                                    // setState(() {
+                                                    //   patient = newPatient;
+                                                    // });
+
+                                                    if (mounted) {
+                                                      Navigator.pop(dxcontext);
+                                                    }
+                                                  } catch (e) {
+                                                    print(e);
+                                                  }
+                                                },
+                                                child: const Text('Ingresar'))
+                                          ],
+                                        );
+                                      });
+                                },
+                                icon: const Icon(Icons.edit))
                           ],
                         ),
                         const SizedBox(
@@ -138,7 +246,89 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                                   fontWeight: FontWeight.w600, fontSize: 18),
                             ),
                             IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.edit))
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext dxcontext) {
+                                        TextEditingController
+                                            aditionalInformation =
+                                            TextEditingController();
+                                        aditionalInformation.text =
+                                            patient.aditionalInformation ?? '';
+
+                                        return AlertDialog(
+                                          title: const Text(
+                                              'Información adicional'),
+                                          content: CustomInput(
+                                            maxLines: 5,
+                                            title: const Text('Datos: '),
+                                            controller: aditionalInformation,
+                                          ),
+                                          actions: [
+                                            ElevatedButton(
+                                                onPressed: () async {
+                                                  try {
+                                                    PatientInformation
+                                                        newPatient =
+                                                        PatientInformation(
+                                                            doc: patient.doc,
+                                                            name: patient.name,
+                                                            gender:
+                                                                patient.gender,
+                                                            hospital: patient
+                                                                .hospital,
+                                                            age: patient.age,
+                                                            id: patient.id,
+                                                            photo:
+                                                                patient.photo,
+                                                            initialDate: patient
+                                                                .initialDate,
+                                                            date: patient.date,
+                                                            riskFactors: patient
+                                                                .riskFactors,
+                                                            tumorType: patient
+                                                                .tumorType,
+                                                            pathology: patient
+                                                                .pathology,
+                                                            treatment: patient
+                                                                .treatment,
+                                                            aditionalInformation:
+                                                                aditionalInformation
+                                                                    .text,
+                                                            gallery: patient
+                                                                .gallery);
+                                                    User? user =
+                                                        await authProvider
+                                                            .getUser();
+                                                    final DatabaseService
+                                                        database =
+                                                        DatabaseService();
+
+                                                    await database
+                                                        .updatePatientlInfo(
+                                                            user!.uid,
+                                                            newPatient,
+                                                            patient.doc ?? '');
+                                                    patientListProvider
+                                                        .updatePatientsList(
+                                                            user, database);
+                                                    // setState(() {
+                                                    //   patient = newPatient;
+                                                    // });
+
+                                                    if (mounted) {
+                                                      Navigator.pop(dxcontext);
+                                                    }
+                                                  } catch (e) {
+                                                    print(e);
+                                                  }
+                                                },
+                                                child: const Text('Ingresar'))
+                                          ],
+                                        );
+                                      });
+                                },
+                                icon: const Icon(Icons.edit))
                           ],
                         ),
                         const SizedBox(
