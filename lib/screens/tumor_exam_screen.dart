@@ -26,18 +26,6 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
     final PatientInformation patient =
         ModalRoute.of(context)!.settings.arguments as PatientInformation;
 
-    //   void loadingPrediction( DiagnosisModel diagnosis) {
-    //   DiagnosisPrediction().makeDiagnosisPrediction(diagnosis
-    //     // DiagnosisModel(
-    //     //   textureMean: 13.98,
-    //     //   perimeterMean: 93.86,
-    //     //   smoothnessMean: 0.10990,
-    //     //   concavePointsMean: 0.06495,
-    //     //   symmetryMean: 0.1650,
-    //     //   fractalDimensionMean: 0.06121)
-    //       );
-    // }
-
     return Scaffold(
         appBar: AppBar(
           title: const Text(

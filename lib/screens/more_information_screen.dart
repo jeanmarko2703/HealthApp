@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/models.dart';
@@ -26,6 +27,12 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     patient = await patientListProvider
         .getUserInfo(prefs.getString('currentPatient') ?? '');
+    setState(() {
+      patient;
+    });
+  }
+
+  void updatePatient() {
     setState(() {
       patient;
     });
@@ -97,7 +104,10 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                           height: 5,
                         ),
                         Text(
-                          patient.initialDate ?? 'Error',
+                          patient.initialDate != null
+                              ? DateFormat.yMMMMEEEEd()
+                                  .format(patient.initialDate!.toUtc())
+                              : 'Error',
                         ),
                         const SizedBox(
                           height: 20,
@@ -223,6 +233,7 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                                                   } catch (e) {
                                                     print(e);
                                                   }
+                                                  updatePatient();
                                                 },
                                                 child: const Text('Ingresar'))
                                           ],
@@ -256,75 +267,89 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                                         aditionalInformation.text =
                                             patient.aditionalInformation ?? '';
 
-                                        return AlertDialog(
-                                          title: const Text(
-                                              'Información adicional'),
-                                          content: CustomInput(
-                                            maxLines: 5,
-                                            title: const Text('Datos: '),
-                                            controller: aditionalInformation,
-                                          ),
-                                          actions: [
-                                            ElevatedButton(
-                                                onPressed: () async {
-                                                  try {
-                                                    PatientInformation
-                                                        newPatient =
-                                                        PatientInformation(
-                                                            doc: patient.doc,
-                                                            name: patient.name,
-                                                            gender:
-                                                                patient.gender,
-                                                            hospital: patient
-                                                                .hospital,
-                                                            age: patient.age,
-                                                            id: patient.id,
-                                                            photo:
-                                                                patient.photo,
-                                                            initialDate: patient
-                                                                .initialDate,
-                                                            date: patient.date,
-                                                            riskFactors: patient
-                                                                .riskFactors,
-                                                            tumorType: patient
-                                                                .tumorType,
-                                                            pathology: patient
-                                                                .pathology,
-                                                            treatment: patient
-                                                                .treatment,
-                                                            aditionalInformation:
-                                                                aditionalInformation
-                                                                    .text,
-                                                            gallery: patient
-                                                                .gallery);
-                                                    User? user =
-                                                        await authProvider
-                                                            .getUser();
-                                                    final DatabaseService
-                                                        database =
-                                                        DatabaseService();
+                                        return StatefulBuilder(
+                                          builder: (BuildContext context,
+                                              setStateAditional) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Información adicional'),
+                                              content: CustomInput(
+                                                maxLines: 5,
+                                                title: const Text('Datos: '),
+                                                controller:
+                                                    aditionalInformation,
+                                              ),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () async {
+                                                      try {
+                                                        PatientInformation
+                                                            newPatient =
+                                                            PatientInformation(
+                                                                doc:
+                                                                    patient.doc,
+                                                                name: patient
+                                                                    .name,
+                                                                gender: patient
+                                                                    .gender,
+                                                                hospital: patient
+                                                                    .hospital,
+                                                                age:
+                                                                    patient.age,
+                                                                id: patient.id,
+                                                                photo: patient
+                                                                    .photo,
+                                                                initialDate: patient
+                                                                    .initialDate,
+                                                                date: patient
+                                                                    .date,
+                                                                riskFactors: patient
+                                                                    .riskFactors,
+                                                                tumorType: patient
+                                                                    .tumorType,
+                                                                pathology: patient
+                                                                    .pathology,
+                                                                treatment: patient
+                                                                    .treatment,
+                                                                aditionalInformation:
+                                                                    aditionalInformation
+                                                                        .text,
+                                                                gallery: patient
+                                                                    .gallery);
+                                                        User? user =
+                                                            await authProvider
+                                                                .getUser();
+                                                        final DatabaseService
+                                                            database =
+                                                            DatabaseService();
 
-                                                    await database
-                                                        .updatePatientlInfo(
-                                                            user!.uid,
-                                                            newPatient,
-                                                            patient.doc ?? '');
-                                                    patientListProvider
-                                                        .updatePatientsList(
-                                                            user, database);
-                                                    // setState(() {
-                                                    //   patient = newPatient;
-                                                    // });
+                                                        await database
+                                                            .updatePatientlInfo(
+                                                                user!.uid,
+                                                                newPatient,
+                                                                patient.doc ??
+                                                                    '');
+                                                        patientListProvider
+                                                            .updatePatientsList(
+                                                                user, database);
+                                                        // setState(() {
+                                                        //   patient = newPatient;
+                                                        // });
 
-                                                    if (mounted) {
-                                                      Navigator.pop(dxcontext);
-                                                    }
-                                                  } catch (e) {
-                                                    print(e);
-                                                  }
-                                                },
-                                                child: const Text('Ingresar'))
-                                          ],
+                                                        if (mounted) {
+                                                          Navigator.pop(
+                                                              dxcontext);
+                                                        }
+                                                      } catch (e) {
+                                                        print(e);
+                                                      }
+                                                      updatePatient();
+                                                    },
+                                                    child:
+                                                        const Text('Ingresar'))
+                                              ],
+                                            );
+                                          },
                                         );
                                       });
                                 },

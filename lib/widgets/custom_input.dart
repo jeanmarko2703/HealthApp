@@ -13,7 +13,7 @@ class CustomInput extends StatelessWidget {
       this.prefixIcon,
       this.obscureText = false,
       this.keyboardType,
-      this.maxLines});
+      this.maxLines=1});
   final Widget title;
   final TextEditingController controller;
   final String? Function(String?)? validator;

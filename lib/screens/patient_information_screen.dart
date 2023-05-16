@@ -120,6 +120,9 @@ class _PatientInformationScreenState extends State<PatientInformationScreen> {
                             } catch (e) {
                               print(e);
                             }
+                            setState(() {
+                              patient;
+                            });
                             patientListProvider.isLoading = false;
                           }
                         },

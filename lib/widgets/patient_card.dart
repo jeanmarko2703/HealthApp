@@ -44,8 +44,8 @@ class PatientCard extends StatelessWidget {
                   ? CachedNetworkImage(
                       imageUrl: patients[index].photo,
                       imageBuilder: (context, imageProvider) => Container(
-                        width: 55,
-                        height: 55,
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppTheme.buttonLabelColor,
@@ -55,9 +55,12 @@ class PatientCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(
-                        color: Colors.white,
+                      placeholder: (context, url) => const CircleAvatar(
+                        backgroundColor: AppTheme.buttonLabelColor,
+                        radius: 25,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),

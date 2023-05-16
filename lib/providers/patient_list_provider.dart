@@ -39,6 +39,7 @@ class PatientListProvider with ChangeNotifier {
     } catch (e) {
       print('error $e');
     }
+    notifyListeners();
     return _patientsList;
   }
 }

@@ -1,15 +1,18 @@
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:health_app/models/models.dart';
-import 'package:health_app/services/database_service.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' show basename;
 
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:health_app/models/models.dart';
+import 'package:health_app/services/database_service.dart';
 import 'package:health_app/theme/app_theme.dart';
 import 'package:health_app/widgets/widgets.dart';
-import 'package:image_picker/image_picker.dart';
+
 import '../providers/auth.dart';
 import '../providers/providers.dart';
 
@@ -48,11 +51,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
@@ -64,7 +62,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final patientFormProvider = Provider.of<PatientFormProvider>(context);
+    final patientFormProvider =
+        Provider.of<PatientFormProvider>(context, listen: true);
 
     return Scaffold(
         appBar: AppBar(
@@ -242,12 +241,17 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                                         patientFormProvider.nameController,
                                     validator: (value) {
                                       {
-                                        (value != null && value.length >= 5)
+                                        (value != null && value.length >= 3)
                                             ? patientFormProvider
                                                 .namelValidatorError = ''
                                             : patientFormProvider
                                                     .namelValidatorError =
                                                 'Ingrese un nombre valido';
+                                        setState(() {
+                                          patientFormProvider
+                                              .namelValidatorError;
+                                        });
+
                                         return null;
                                       }
                                     },
@@ -275,6 +279,10 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                                       ''
                                   : patientFormProvider.genderValidatorError =
                                       'Ingrese un genero';
+
+                              setState(() {
+                                patientFormProvider.genderValidatorError;
+                              });
                               return null;
                             }
                           },
@@ -294,6 +302,9 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                                   ? patientFormProvider.ageValidatorError = ''
                                   : patientFormProvider.ageValidatorError =
                                       'Ingrese una edad válida';
+                              setState(() {
+                                patientFormProvider.ageValidatorError;
+                              });
                               return null;
                             }
                           },
@@ -350,10 +361,14 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                           controller: patientFormProvider.idController,
                           validator: (value) {
                             {
-                              (value!.length == 9)
+                              (value!.length == 8)
                                   ? patientFormProvider.idValidatorError = ''
                                   : patientFormProvider.idValidatorError =
                                       'Ingrese un DNI válido';
+
+                              setState(() {
+                                patientFormProvider.idValidatorError;
+                              });
                               return null;
                             }
                           },
@@ -374,6 +389,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                             onPressed: patientFormProvider.isLoading
                                 ? null
                                 : () async {
+                                    print('hollaaaa');
                                     if (!patientFormProvider.isValidForm() ||
                                         patientFormProvider.ageValidatorError !=
                                             '' ||
@@ -397,6 +413,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                                     User? user = await authProvider.getUser();
                                     final PatientInformation newPatient =
                                         PatientInformation(
+                                            initialDate: DateTime.now(),
                                             name: patientFormProvider
                                                 .nameController.text,
                                             gender: patientFormProvider
@@ -405,7 +422,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                                             age: int.parse(patientFormProvider
                                                 .ageController.text),
                                             id: int.parse(patientFormProvider
-                                                .ageController.text),
+                                                .idController.text),
                                             photo: imageProfile);
                                     await database.savePatientlInfo(
                                         newPatient, user!.uid);

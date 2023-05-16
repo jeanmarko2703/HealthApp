@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
 import 'package:health_app/screens/onboarding_backgroun.dart';
 import 'package:health_app/theme/app_theme.dart';
 import 'package:health_app/widgets/widgets.dart';
@@ -43,7 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: 10,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'onboardingScreen');
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        'onboardingScreen', (route) => false);
                   },
                   icon: Icon(
                     Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,

@@ -35,9 +35,12 @@ class PatientFormProvider extends ChangeNotifier {
     ageValidatorError = '';
     idValidatorError = '';
     hospitalValidatorError = '';
+    notifyListeners();
   }
 
   bool isValidForm() {
+
+
     return formKey.currentState?.validate() ?? false;
   }
 }

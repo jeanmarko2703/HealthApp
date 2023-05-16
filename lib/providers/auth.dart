@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -35,8 +36,11 @@ class AuthProvider extends ChangeNotifier {
 
   // sign in with email and password
   Future<UserCredential?> signIn(String email, String password) async {
-    UserCredential result = await _auth.createUserWithEmailAndPassword(
+    UserCredential? result;
+
+    result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
+
     return result;
   }
 

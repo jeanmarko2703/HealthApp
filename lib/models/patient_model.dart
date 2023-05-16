@@ -10,7 +10,7 @@ class PatientInformation {
   final int age;
   final int id;
   final String photo;
-  final String? initialDate;
+  final DateTime? initialDate;
   final DateTime? date;
   final List<String>? riskFactors;
   final String? tumorType;
@@ -50,7 +50,10 @@ class PatientInformation {
           age: json["age"],
           id: json["id"],
           photo: json["photo"],
-          initialDate: json['initialDate'],
+          initialDate: json['initialDate'] != null
+              ? (json['initialDate'] as Timestamp)
+                  .toDate() // convert Timestamp to DateTime
+              : null,
           date: json['date'] != null
               ? (json['date'] as Timestamp)
                   .toDate() // convert Timestamp to DateTime
