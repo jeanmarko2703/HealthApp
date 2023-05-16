@@ -81,7 +81,11 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                           },
                           child: const Text('Tipo de tumor')),
                       ElevatedButton(
-                          onPressed: () {}, child: const Text('Patología')),
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'treatmentExamScreen',
+                                arguments: patient);
+                          },
+                          child: const Text('Tratamiento')),
                     ],
                   ),
                   Padding(

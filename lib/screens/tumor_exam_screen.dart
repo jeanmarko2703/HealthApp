@@ -53,7 +53,7 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                   (value != null && value.isNotEmpty)
                                       ? examForm.perimeterValidatorError = ''
                                       : examForm.perimeterValidatorError =
-                                          'Ingrese un perimetro';
+                                          'Ingrese un valor';
                                   return null;
                                 }
                               }),
@@ -86,7 +86,7 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                   (value != null && value.isNotEmpty)
                                       ? examForm.textureValidatorError = ''
                                       : examForm.textureValidatorError =
-                                          'Ingrese un textura';
+                                          'Ingrese un valor';
                                   return null;
                                 }
                               }),
@@ -118,7 +118,7 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                   (value != null && value.isNotEmpty)
                                       ? examForm.smoothhnessValidatorError = ''
                                       : examForm.smoothhnessValidatorError =
-                                          'Ingrese un smoothness';
+                                          'Ingrese un valor';
                                   return null;
                                 }
                               }),
@@ -150,7 +150,7 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                       ? examForm.concavityPointsValidatorError =
                                           ''
                                       : examForm.concavityPointsValidatorError =
-                                          'Ingrese p.concavidad';
+                                          'Ingrese un valor';
                                   return null;
                                 }
                               }),
@@ -182,7 +182,7 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                   (value != null && value.isNotEmpty)
                                       ? examForm.symetriValidatorError = ''
                                       : examForm.symetriValidatorError =
-                                          'Ingrese simetría';
+                                          'Ingrese un valor';
                                   return null;
                                 }
                               }),
@@ -215,7 +215,7 @@ class _TumorExamScreenState extends State<TumorExamScreen> {
                                           .fractalDimensionValidatorError = ''
                                       : examForm
                                               .fractalDimensionValidatorError =
-                                          'Ingrese dimension fractal';
+                                          'Ingrese un valor';
                                   return null;
                                 }
                               }),

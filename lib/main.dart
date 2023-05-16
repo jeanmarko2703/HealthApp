@@ -27,6 +27,9 @@ class AppState extends StatelessWidget {
       ChangeNotifierProvider(create: (_) => AuthProvider()),
       ChangeNotifierProvider(create: (_) => PatientListProvider()),
       ChangeNotifierProvider(create: (_) => HospitalListProvider()),
+       ChangeNotifierProvider(
+        create: (_) => TreatmentExamFormProvider(),
+      ),
       ChangeNotifierProvider(
         create: (_) => TumorExamFormProvider(),
       ),

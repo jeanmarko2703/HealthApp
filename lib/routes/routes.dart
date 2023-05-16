@@ -59,6 +59,10 @@ class AppRoute {
     });
     appRoutes.addAll(
         {"tumorExamScreen": (BuildContext context) => const TumorExamScreen()});
+    appRoutes.addAll({
+      "treatmentExamScreen": (BuildContext context) =>
+          const TreatmentExamScreen()
+    });
     appRoutes.addAll(
         {"profileScreen": (BuildContext context) => const ProfileScreen()});
     appRoutes
