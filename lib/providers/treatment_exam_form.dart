@@ -12,6 +12,7 @@ class TreatmentExamFormProvider extends ChangeNotifier {
   TextEditingController geneClassifier = TextEditingController();
   TextEditingController nottinghamPrognostic = TextEditingController();
   TextEditingController oncotree = TextEditingController();
+  TextEditingController tumorStage = TextEditingController();
 
   String ageAtDiagnosisValidatorError = '';
   String cohortValidatorError = '';
@@ -23,6 +24,7 @@ class TreatmentExamFormProvider extends ChangeNotifier {
   String geneClassifierValidatorError = '';
   String nottinghamPrognosticValidatorError = '';
   String oncotreeValidatorError = '';
+  String tumorStageValidatorError = '';
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -44,6 +46,7 @@ class TreatmentExamFormProvider extends ChangeNotifier {
     geneClassifier = TextEditingController();
     nottinghamPrognostic = TextEditingController();
     oncotree = TextEditingController();
+    tumorStage = TextEditingController();
 
     notifyListeners();
   }

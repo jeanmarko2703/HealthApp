@@ -6,6 +6,7 @@ import 'package:health_app/theme/app_theme.dart';
 import 'package:health_app/widgets/page_container.dart';
 
 import '../models/models.dart';
+import '../providers/providers.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserModel userInformation = UserModel(name: '', email: '');
+  List<HospitalModel> hospitalsList = [];
+
   Future<void> getUserInformation() async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,6 +30,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  void addHospitalList() {
+    final hospitalListProvider = Provider.of<HospitalListProvider>(context);
+    hospitalsList = hospitalListProvider.hospitalsList;
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    addHospitalList();
   }
 
   @override
@@ -60,7 +75,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const CircleAvatar(
             radius: 35,
             backgroundColor: AppTheme.buttonLabelColor,
-            child: Icon(Icons.person),
+            child: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(
             height: 15,
@@ -93,6 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
                 ],
               ),
+              ...hospitalsList.map((e) => Text('    - ${e.name}'))
               // Expanded(
               //   child: ListView.builder(
               //       itemCount: 5,
