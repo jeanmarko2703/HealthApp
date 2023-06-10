@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:health_app/theme/app_theme.dart';
 import 'package:health_app/widgets/widgets.dart';
 
@@ -14,8 +15,8 @@ class PatientListScreen extends StatefulWidget {
 }
 
 class _PatientListScreenState extends State<PatientListScreen> {
-  List<PatientInformation> patientsList=[];
-    @override
+  List<PatientInformation> patientsList = [];
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -38,22 +39,15 @@ class _PatientListScreenState extends State<PatientListScreen> {
         ),
 
         actions: [
-          GestureDetector(
-            onTap: () {
-              final result = Navigator.pushNamed(context, 'addPatientScreen');
-              setState(() {
-                patientsList;
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'addPatientScreen').then((value) {
+                setState(() {
+                  patientsList;
+                });
               });
             },
-            child: Container(
-              margin: const EdgeInsets.only(right: 30, bottom: 10, top: 10),
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  color: AppTheme.buttonLabelColor,
-                  borderRadius: BorderRadius.circular(5)),
-              child: const Center(child: Text('+')),
-            ),
+            icon: const Icon(Icons.add),
           )
         ],
       ),

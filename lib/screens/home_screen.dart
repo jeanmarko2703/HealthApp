@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:health_app/models/models.dart';
@@ -26,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool loaderList = false;
   List<PatientInformation> patientsList = [];
   List<PatientInformation> secondPatientsList = [];
+  String selectedValue = '';
+  List<HospitalModel> medicalInstitutions = [];
 
   void changeLoaderState(setState) {
     setState(() {
@@ -85,24 +86,37 @@ class _HomeScreenState extends State<HomeScreen> {
         await patientListProvider.updatePatientsList(user!, database) ?? [];
   }
 
+  void updateHospitalsList() {
+    final hospitalListProvider =
+        Provider.of<HospitalListProvider>(context, listen: false);
+    medicalInstitutions = hospitalListProvider.hospitalsList;
+    if (medicalInstitutions.isNotEmpty) {
+      selectedValue = medicalInstitutions[0].name;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    updateHospitalsList();
+  }
+
   @override
   void initState() {
     super.initState();
-    getUserInformation();
     gethospitalsList();
+    getUserInformation();
     getPatientsList();
   }
 
   @override
   Widget build(BuildContext context) {
     final patientListProvider = Provider.of<PatientListProvider>(context);
-    final hospitalsListProvider = Provider.of<HospitalListProvider>(context);
     final size = MediaQuery.of(context).size;
     secondPatientsList = patientListProvider.patientsList;
 
     // patientsList = patientListProvider.patientsList;
-    List<HospitalModel> medicalInstitutions =
-        hospitalsListProvider.hospitalsList;
 
     if (userInformation.name == '') {
       return const CircularProgressIndicator(
@@ -125,12 +139,13 @@ class _HomeScreenState extends State<HomeScreen> {
             SafeArea(
               top: true,
               child: Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20))),
-                height: size.height * 0.225,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey[350]!, width: 1),
+                  ),
+                ),
+                height: size.height * 0.2,
                 width: size.width,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -138,13 +153,114 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Stack(
                     children: [
                       Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: SvgPicture.asset(
-                            'assets/undraw_medicine.svg',
-                            height: 80,
-                            fit: BoxFit.fitHeight,
-                          )),
+                        right: -10,
+                        child: IconButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(10, 10),
+                              elevation: 0,
+                              backgroundColor: Colors.white,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext ctx) {
+                                    TextEditingController name =
+                                        TextEditingController();
+                                    TextEditingController location =
+                                        TextEditingController();
+
+                                    return StatefulBuilder(
+                                        builder: (ctx, StateSetter setState) {
+                                      return AlertDialog(
+                                        title: Row(
+                                          // mainAxisAlignment: Main,
+                                          children: [
+                                            const Expanded(
+                                                child:
+                                                    Text('Añadir institución')),
+                                            GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pop(ctx);
+                                                },
+                                                child: const Icon(Icons.cancel))
+                                          ],
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CustomInput(
+                                                title: const Text('Nombre:'),
+                                                controller: name),
+                                            CustomInput(
+                                                title: const Text('Ubicación:'),
+                                                controller: location)
+                                          ],
+                                        ),
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: loaderList
+                                                  ? null
+                                                  : () async {
+                                                      final authProvider =
+                                                          Provider.of<
+                                                                  AuthProvider>(
+                                                              ctx,
+                                                              listen: false);
+
+                                                      final DatabaseService
+                                                          database =
+                                                          DatabaseService();
+                                                      HospitalModel
+                                                          hospitalNew =
+                                                          HospitalModel(
+                                                              name: name.text,
+                                                              location: location
+                                                                  .text);
+                                                      changeLoaderState(
+                                                          setState);
+                                                      print(
+                                                          'el estado es: $loaderList');
+
+                                                      if (name.text != '' &&
+                                                          location.text != '') {
+                                                        try {
+                                                          User? user =
+                                                              await authProvider
+                                                                  .getUser();
+
+                                                          await database
+                                                              .saveHospitalInfo(
+                                                                  hospitalNew,
+                                                                  user!.uid);
+
+                                                          await gethospitalsList();
+                                                        } catch (e) {
+                                                          print(e);
+                                                        }
+                                                      }
+                                                      changeLoaderState(
+                                                          setState);
+                                                      print(
+                                                          'el estado es: $loaderList');
+                                                      if (name.text != '' &&
+                                                          location.text != '') {
+                                                        Navigator.pop(ctx);
+                                                      }
+                                                    },
+                                              child: Text(!loaderList
+                                                  ? 'Guardar'
+                                                  : 'Cargando'))
+                                        ],
+                                      );
+                                    });
+                                  });
+                            },
+                            icon: const Icon(
+                              Icons.add,
+                            )),
+                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,141 +270,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w600),
                           ),
-                          SizedBox(
-                            width: size.width * 0.75,
-                            height: 35,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: medicalInstitutions.length + 1,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          minimumSize:
-                                              medicalInstitutions.length - 1 <
-                                                      index
-                                                  ? const Size(5, 5)
-                                                  : null,
-                                          elevation: 0,
-                                          backgroundColor:
-                                              AppTheme.buttonLabelColor,
-                                        ),
-                                        onPressed: () {
-                                          medicalInstitutions.length == index
-                                              ? showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext ctx) {
-                                                    TextEditingController name =
-                                                        TextEditingController();
-                                                    TextEditingController
-                                                        location =
-                                                        TextEditingController();
-
-                                                    return StatefulBuilder(
-                                                        builder: (ctx,
-                                                            StateSetter
-                                                                setState) {
-                                                      return AlertDialog(
-                                                        title: Row(
-                                                          // mainAxisAlignment: Main,
-                                                          children: [
-                                                            const Expanded(
-                                                                child: Text(
-                                                                    'Añadir institución')),
-                                                            GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator.pop(
-                                                                      ctx);
-                                                                },
-                                                                child: const Icon(
-                                                                    Icons
-                                                                        .cancel))
-                                                          ],
-                                                        ),
-                                                        content: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: [
-                                                            CustomInput(
-                                                                title: const Text(
-                                                                    'Nombre:'),
-                                                                controller:
-                                                                    name),
-                                                            CustomInput(
-                                                                title: const Text(
-                                                                    'Ubicación:'),
-                                                                controller:
-                                                                    location)
-                                                          ],
-                                                        ),
-                                                        actionsAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        actions: [
-                                                          ElevatedButton(
-                                                              onPressed:
-                                                                  loaderList
-                                                                      ? null
-                                                                      : () async {
-                                                                          final authProvider = Provider.of<AuthProvider>(
-                                                                              ctx,
-                                                                              listen: false);
-
-                                                                          final DatabaseService
-                                                                              database =
-                                                                              DatabaseService();
-                                                                          HospitalModel
-                                                                              hospitalNew =
-                                                                              HospitalModel(name: name.text, location: location.text);
-                                                                          changeLoaderState(
-                                                                              setState);
-                                                                          print(
-                                                                              'el estado es: $loaderList');
-
-                                                                          if (name.text != '' &&
-                                                                              location.text != '') {
-                                                                            try {
-                                                                              User? user = await authProvider.getUser();
-
-                                                                              await database.saveHospitalInfo(hospitalNew, user!.uid);
-
-                                                                              await gethospitalsList();
-                                                                            } catch (e) {
-                                                                              print(e);
-                                                                            }
-                                                                          }
-                                                                          changeLoaderState(
-                                                                              setState);
-                                                                          print(
-                                                                              'el estado es: $loaderList');
-                                                                          if (name.text != '' &&
-                                                                              location.text != '') {
-                                                                            Navigator.pop(ctx);
-                                                                          }
-                                                                        },
-                                                              child: Text(!loaderList
-                                                                  ? 'Guardar'
-                                                                  : 'Cargando'))
-                                                        ],
-                                                      );
-                                                    });
-                                                  })
-                                              : instituteListPatient(
-                                                  medicalInstitutions[index]
-                                                      .name);
-                                        },
-                                        child: medicalInstitutions.length - 1 <
-                                                index
-                                            ? const Text('+')
-                                            : Text(medicalInstitutions[index]
-                                                .name)),
-                                  );
-                                }),
+                          const Text(
+                            'Selecciona un hospital o clinica',
+                            style: TextStyle(color: Colors.grey),
                           ),
-                          Text(
-                            'Pacientes: ${patientsList.length} ',
-                          ),
+                          if (medicalInstitutions.isNotEmpty)
+                            Container(
+                              width: double.infinity,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey[350]!, width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: selectedValue,
+                                  isExpanded: true,
+                                  hint: const Text('Selecciona',
+                                      style: TextStyle(color: Colors.grey)),
+                                  items: medicalInstitutions
+                                      .map<DropdownMenuItem<String>>(
+                                          (HospitalModel value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value.name,
+                                      child: Text(value.name),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    // Acciones cuando se selecciona una opción
+                                  },
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ],
@@ -299,16 +314,6 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            patientsList.isEmpty
-                ? const SizedBox()
-                : const Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Citas próximas: ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                    ),
-                  ),
             const SizedBox(
               height: 20,
             ),
@@ -336,16 +341,45 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       )
-                    : ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: patientsList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return PatientCard(
-                            size: size,
-                            patients: patientsList,
-                            index: index,
-                          );
-                        }),
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                selectedValue,
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                ' (${patientsList.length} pacientes totales)',
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            ' Proximas citas en "$selectedValue"',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: patientsList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return PatientCard(
+                                    size: size,
+                                    patients: patientsList,
+                                    index: index,
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
               ),
             ),
             const SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../providers/providers.dart';
 import '../theme/app_theme.dart';
 
@@ -25,7 +26,7 @@ class CustomNavigationBar extends StatelessWidget {
           currentIndex: currentIndex,
           elevation: 0,
           selectedItemColor: AppTheme.buttonLabelColor,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: const Color.fromRGBO(105, 106, 123, 1),
           unselectedLabelStyle: const TextStyle(color: Colors.red),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

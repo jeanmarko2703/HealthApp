@@ -31,9 +31,11 @@ class PatientCard extends StatelessWidget {
       child: Container(
         width: size.width,
         margin: const EdgeInsets.only(bottom: 10),
-        height: 100,
+        height: 90,
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(width: 1, color: Colors.grey[350]!)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,8 +46,8 @@ class PatientCard extends StatelessWidget {
                   ? CachedNetworkImage(
                       imageUrl: patients[index].photo,
                       imageBuilder: (context, imageProvider) => Container(
-                        width: 50,
-                        height: 50,
+                        width: 62,
+                        height: 62,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppTheme.buttonLabelColor,
