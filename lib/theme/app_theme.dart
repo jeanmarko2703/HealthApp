@@ -23,6 +23,11 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                30), 
+          ),
+
           // minimumSize:
           //     medicalInstitutions.length - 1 < index
           //         ? const Size(5, 5)
