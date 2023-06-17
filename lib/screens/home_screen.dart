@@ -75,6 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     User? user = await authProvider.getUser();
     await hospitalsListProvider.updateHospitalsList(user!, database);
+    medicalInstitutions = hospitalsListProvider.hospitalsList;
+    if (medicalInstitutions.isNotEmpty) {
+      selectedValue = medicalInstitutions[0].name;
+    }
   }
 
   Future<void> getPatientsList() async {
@@ -86,20 +90,20 @@ class _HomeScreenState extends State<HomeScreen> {
         await patientListProvider.updatePatientsList(user!, database) ?? [];
   }
 
-  void updateHospitalsList() {
-    final hospitalListProvider =
-        Provider.of<HospitalListProvider>(context, listen: false);
-    medicalInstitutions = hospitalListProvider.hospitalsList;
-    if (medicalInstitutions.isNotEmpty) {
-      selectedValue = medicalInstitutions[0].name;
-    }
-  }
+  // void updateHospitalsListScreen() {
+  //   final hospitalListProvider =
+  //       Provider.of<HospitalListProvider>(context, listen: false);
+  //   medicalInstitutions = hospitalListProvider.hospitalsList;
+  //   if (medicalInstitutions.isNotEmpty) {
+  //     selectedValue = medicalInstitutions[0].name;
+  //   }
+  // }
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    updateHospitalsList();
+    // updateHospitalsListScreen();
   }
 
   @override
@@ -112,9 +116,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final patientListProvider = Provider.of<PatientListProvider>(context);
+    final patientListProvider =
+        Provider.of<PatientListProvider>(context, listen: false);
+
     final size = MediaQuery.of(context).size;
-    secondPatientsList = patientListProvider.patientsList;
+    if (secondPatientsList.isEmpty) {
+      secondPatientsList = patientListProvider.patientsList
+          .where((element) => element.hospital == selectedValue)
+          .toList();
+    }
 
     // patientsList = patientListProvider.patientsList;
 
@@ -171,6 +181,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     return StatefulBuilder(
                                         builder: (ctx, StateSetter setState) {
+                                      final authProvider =
+                                          Provider.of<AuthProvider>(context,
+                                              listen: false);
                                       return AlertDialog(
                                         title: Row(
                                           // mainAxisAlignment: Main,
@@ -203,12 +216,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                               onPressed: loaderList
                                                   ? null
                                                   : () async {
-                                                      final authProvider =
-                                                          Provider.of<
-                                                                  AuthProvider>(
-                                                              ctx,
-                                                              listen: false);
-
                                                       final DatabaseService
                                                           database =
                                                           DatabaseService();
@@ -236,6 +243,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   user!.uid);
 
                                                           await gethospitalsList();
+                                                          setState(
+                                                            () {},
+                                                          );
                                                         } catch (e) {
                                                           print(e);
                                                         }
@@ -270,9 +280,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w600),
                           ),
-                          const Text(
-                            'Selecciona un hospital o clinica',
-                            style: TextStyle(color: Colors.grey),
+                          Text(
+                            medicalInstitutions.isNotEmpty
+                                ? 'Selecciona un hospital o clinica'
+                                : 'Añada un hospital o clínica con el botón más',
+                            style: const TextStyle(color: Colors.grey),
                           ),
                           if (medicalInstitutions.isNotEmpty)
                             Container(
@@ -299,6 +311,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   }).toList(),
                                   onChanged: (newValue) {
+                                    if (newValue != null) {
+                                      setState(() {
+                                        selectedValue = newValue;
+                                        secondPatientsList = patientsList
+                                            .where((element) =>
+                                                element.hospital == newValue)
+                                            .toList();
+                                      });
+                                    }
                                     // Acciones cuando se selecciona una opción
                                   },
                                 ),
@@ -352,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 20, fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                ' (${patientsList.length} pacientes totales)',
+                                ' (${secondPatientsList.length} pacientes totales)',
                               ),
                             ],
                           ),
@@ -369,11 +390,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                             child: ListView.builder(
                                 padding: EdgeInsets.zero,
-                                itemCount: patientsList.length,
+                                itemCount: secondPatientsList.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return PatientCard(
                                     size: size,
-                                    patients: patientsList,
+                                    patients: secondPatientsList,
                                     index: index,
                                   );
                                 }),
