@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/models.dart';
 import '../providers/auth.dart';
@@ -9,6 +10,7 @@ import '../providers/providers.dart';
 import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
+
 import 'onboarding_backgroun.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -56,7 +58,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil('onboardingScreen', (route) => false);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    'onboardingScreen', (route) => false);
                               },
                               icon: Icon(
                                 Platform.isIOS
@@ -323,25 +326,61 @@ class _SignInScreenState extends State<SignInScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.white,
-                                child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    child:
-                                        Image.asset('assets/google_logo.png')),
+                              GestureDetector(
+                                onTap: () async {
+                                  UserCredential? user =
+                                      await AuthService().signInWithGoogle();
+                                  if (user != null) {
+                                    print('respuestaaaaa');
+
+                                    print(user.user?.displayName);
+                                    print(user.user?.email);
+                                    print(user.user?.uid);
+                                    if (user.user != null) {
+                                      UserModel? userRegisterd =
+                                          await DatabaseService()
+                                              .getUserInfo(user.user!.uid);
+
+                                      if (userRegisterd != null) {
+                                        if (mounted) {
+                                          Navigator.pushReplacementNamed(
+                                              context, 'saveAccount');
+                                        }
+                                      } else {
+                                        await DatabaseService().saveUserInfo(
+                                            UserModel(
+                                                uid: user.user!.uid,
+                                                email: user.user!.email!,
+                                                name: user.user!.displayName!));
+                                        if (mounted) {
+                                          Navigator.pushReplacementNamed(
+                                              context, 'saveAccount');
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.white,
+                                  child: Container(
+                                      margin: const EdgeInsets.all(5),
+                                      child: Image.asset(
+                                          'assets/google_logo.png')),
+                                ),
                               ),
                               const SizedBox(
                                 width: 10,
                               ),
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.white,
-                                child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    child:
-                                        Image.asset('assets/apple_logo.png')),
-                              )
+                              if (Platform.isIOS)
+                                CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.white,
+                                  child: Container(
+                                      margin: const EdgeInsets.all(5),
+                                      child:
+                                          Image.asset('assets/apple_logo.png')),
+                                )
                             ],
                           ),
                         ],
