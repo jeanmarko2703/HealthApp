@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme.dart';
-
 class CustomInput extends StatelessWidget {
   const CustomInput(
       {super.key,
-      required this.title,
+      this.title,
       required this.controller,
       this.validator,
       this.backgroundColor = Colors.grey,
@@ -13,8 +11,10 @@ class CustomInput extends StatelessWidget {
       this.prefixIcon,
       this.obscureText = false,
       this.keyboardType,
-      this.maxLines=1});
-  final Widget title;
+      this.maxLines = 1,
+      this.secondTitle,
+      this.secondTitleStyle});
+  final Widget? title;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final Color backgroundColor;
@@ -23,6 +23,8 @@ class CustomInput extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final int? maxLines;
+  final String? secondTitle;
+  final TextStyle? secondTitleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -32,29 +34,26 @@ class CustomInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          title,
-          Container(
-              margin: const EdgeInsets.only(top: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                  color: backgroundColor.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextFormField(
-                keyboardType: keyboardType,
-                obscureText: obscureText,
-                controller: controller,
-                cursorColor: Colors.grey,
-                maxLines: maxLines,
-                // onChanged: (value) => controller.text = value,
-                validator: validator,
-                decoration: InputDecoration(
-                  suffixIcon: suffix,
-                  prefixIcon: prefixIcon != null
-                      ? Icon(prefixIcon, color: AppTheme.primary)
-                      : null,
-                  border: InputBorder.none,
-                ),
-              )),
+          if (title != null) title!,
+          TextFormField(
+            keyboardType: keyboardType,
+            obscureText: obscureText,
+            controller: controller,
+            cursorColor: Colors.grey,
+            maxLines: maxLines,
+            validator: validator,
+            decoration: InputDecoration(
+              labelText: secondTitle,
+              labelStyle: secondTitleStyle,
+              focusedBorder: const OutlineInputBorder(),
+              disabledBorder: const OutlineInputBorder(),
+              enabledBorder: const OutlineInputBorder(),
+              suffixIcon: suffix,
+              prefixIcon: prefixIcon != null
+                  ? Icon(prefixIcon, color: Colors.red)
+                  : null,
+            ),
+          ),
         ],
       ),
     );

@@ -20,10 +20,8 @@ Future<void> main() async {
 
 class SplashApp extends StatelessWidget {
   final Future<String> splashScreenFuture = Future<String>.delayed(
-    const Duration(
-        seconds: 3), 
-    () =>
-        'AppState', 
+    const Duration(seconds: 3),
+    () => 'AppState',
   );
   SplashApp({super.key});
 
@@ -40,7 +38,7 @@ class SplashApp extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SvgPicture.asset(
-                    'assets/Oncoguard_Logo.svg', 
+                    'assets/Oncoguard_Logo.svg',
                     width: size.width * 0.7,
                     fit: BoxFit.cover,
                   ),
@@ -48,7 +46,7 @@ class SplashApp extends StatelessWidget {
               ),
             );
           } else {
-            return const AppState(); 
+            return const AppState();
           }
         },
       ),
@@ -95,7 +93,7 @@ class MyApp extends StatelessWidget {
     final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
     return MaterialApp(
-      title: "Health App",
+      title: "Oncoguard",
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoute.initialRoute,
       navigatorKey: navigatorKey,

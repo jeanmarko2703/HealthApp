@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../screens/screens.dart';
 
@@ -15,7 +16,7 @@ class _SaveAccountState extends State<SaveAccount> {
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      return const OnboardingScreen();
+      return const LoginScreen();
     } else {
       return const NavigationScreen();
     }

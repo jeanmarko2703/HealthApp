@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static const Color primary = Color.fromRGBO(249, 249, 249, 1);
+
   static const Color buttonLabelColor = Color.fromRGBO(98, 210, 212, 1);
   static const TextStyle titleStyleLight = TextStyle(color: Colors.black);
+  static const Color bannerColor = Color.fromRGBO(249, 249, 249, 1);
 
   // static const secondColor = Color.fromRGBO(173, 173, 175, 1);
   // static const backgroundColor = Color.fromRGBO(246, 246, 249, 1);
@@ -24,8 +26,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-                30), 
+            borderRadius: BorderRadius.circular(30),
           ),
 
           // minimumSize:
