@@ -23,6 +23,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool hiddenPassword = true;
   bool errorMessage = false;
+  // late BuildContext googleCtx;
+
   void _message() {
     setState(() {
       errorMessage = true;
@@ -230,7 +232,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               const Text('¿Aún no tienes una cuenta? '),
                               GestureDetector(
                                   onTap: () {
-                                    print('hola');
+                                    Navigator.pushNamed(
+                                        context, 'signInScreen');
                                   },
                                   child: const Text(
                                     'Crear cuenta',
@@ -250,30 +253,53 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          UserCredential? user =
-                              await AuthService().signInWithGoogle();
-                          if (user != null) {
-                            if (user.user != null) {
-                              UserModel? userRegisterd = await DatabaseService()
-                                  .getUserInfo(user.user!.uid);
+                          // if (mounted) {
+                          //   showDialog(
+                          //       context: context,
+                          //       builder: (BuildContext tempCtx) {
+                          //         googleCtx = tempCtx;
+                          //         return const AlertDialog(
+                          //           content: SizedBox(
+                          //               height: 40,
+                          //               width: 40,
+                          //               child: CircularProgressIndicator(
+                          //                 color: AppTheme.buttonLabelColor,
+                          //               )),
+                          //         );
+                          //       });
+                          // }
+                          try {
+                            UserCredential? user =
+                                await AuthService().signInWithGoogle();
+                            if (user != null) {
+                              if (user.user != null) {
+                                UserModel? userRegisterd =
+                                    await DatabaseService()
+                                        .getUserInfo(user.user!.uid);
 
-                              if (userRegisterd != null) {
-                                if (mounted) {
-                                  Navigator.pushReplacementNamed(
-                                      context, 'saveAccount');
-                                }
-                              } else {
-                                await DatabaseService().saveUserInfo(UserModel(
-                                    uid: user.user!.uid,
-                                    email: user.user!.email!,
-                                    name: user.user!.displayName!));
-                                if (mounted) {
-                                  Navigator.pushReplacementNamed(
-                                      context, 'saveAccount');
+                                if (userRegisterd != null) {
+                                  if (mounted) {
+                                    // Navigator.pop(googleCtx);
+
+                                    Navigator.pushReplacementNamed(
+                                        context, 'saveAccount');
+                                  }
+                                } else {
+                                  await DatabaseService().saveUserInfo(
+                                      UserModel(
+                                          uid: user.user!.uid,
+                                          email: user.user!.email!,
+                                          name: user.user!.displayName!));
+                                  if (mounted) {
+                                    // Navigator.pop(googleCtx);
+
+                                    Navigator.pushReplacementNamed(
+                                        context, 'saveAccount');
+                                  }
                                 }
                               }
                             }
-                          }
+                          } catch (e) {}
                         },
                         child: CircleAvatar(
                           radius: 25,

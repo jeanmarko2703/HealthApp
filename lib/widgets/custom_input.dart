@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 class CustomInput extends StatelessWidget {
   const CustomInput(
       {super.key,
@@ -50,7 +52,7 @@ class CustomInput extends StatelessWidget {
               enabledBorder: const OutlineInputBorder(),
               suffixIcon: suffix,
               prefixIcon: prefixIcon != null
-                  ? Icon(prefixIcon, color: Colors.red)
+                  ? Icon(prefixIcon, color: AppTheme.primary)
                   : null,
             ),
           ),

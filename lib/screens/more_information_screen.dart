@@ -58,19 +58,48 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
     final size = MediaQuery.of(context).size;
     List<String> riskfactors = ['Fumador', 'Sobrepeso'];
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black),
-          title: const Text(
-            'Información de paciente',
-            style: AppTheme.titleStyleLight,
-          ),
         ),
         body: SafeArea(
-          child: PageContainer(
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Más información',
+                            style: AppTheme.titleStyle,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, 'editPatientScreen');
+                              },
+                              child: const Text(
+                                'Editar',
+                                style:
+                                    TextStyle(color: AppTheme.buttonLabelColor),
+                              ))
+                        ],
+                      ),
+                      Text(
+                        'Conoce el detalle y progreso',
+                        style: AppTheme.subTitleStyle,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -88,322 +117,292 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                           child: const Text('Tratamiento')),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Fecha de inicio:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 18),
-                            ),
-                            // IconButton(
-                            //     onPressed: () {}, icon: const Icon(Icons.edit))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          patient.initialDate != null
-                              ? DateFormat.yMMMMEEEEd()
-                                  .format(patient.initialDate!.toUtc())
-                              : 'Error',
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              'Factores de riesgo:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 18),
-                            ),
-                            IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.edit))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: riskfactors
-                              .map((e) => Text('\u2022 $e'))
-                              .toList(),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text(
-                          'Analisis del sistema:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 18),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          patient.tumorType != null
-                              ? 'Tipo de tumor: ${patient.tumorType}'
-                              : 'No se ha realizado análisis de tumor',
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              'Tratamiento Actual:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 18),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext dxcontext) {
-                                        TextEditingController treatment =
-                                            TextEditingController();
-                                        treatment.text =
-                                            patient.treatment ?? '';
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: const [
+                      Text(
+                        'Fecha de inicio:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                      // IconButton(
+                      //     onPressed: () {}, icon: const Icon(Icons.edit))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    patient.initialDate != null
+                        ? DateFormat.yMMMMEEEEd()
+                            .format(patient.initialDate!.toUtc())
+                        : 'Error',
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Factores de riesgo:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:
+                        riskfactors.map((e) => Text('\u2022 $e')).toList(),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Analisis del sistema:',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    patient.tumorType != null
+                        ? 'Tipo de tumor: ${patient.tumorType}'
+                        : 'No se ha realizado análisis de tumor',
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Tratamiento Actual:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext dxcontext) {
+                                  TextEditingController treatment =
+                                      TextEditingController();
+                                  treatment.text = patient.treatment ?? '';
 
-                                        return AlertDialog(
-                                          title:
-                                              const Text('Tratamiento actual'),
-                                          content: CustomInput(
-                                            title: const Text('Tratamiento'),
-                                            controller: treatment,
-                                          ),
-                                          actions: [
-                                            ElevatedButton(
-                                                onPressed: () async {
-                                                  try {
-                                                    PatientInformation
-                                                        newPatient =
-                                                        PatientInformation(
-                                                            doc: patient.doc,
-                                                            name: patient.name,
-                                                            gender:
-                                                                patient.gender,
-                                                            hospital: patient
-                                                                .hospital,
-                                                            age: patient.age,
-                                                            id: patient.id,
-                                                            photo:
-                                                                patient.photo,
-                                                            initialDate: patient
-                                                                .initialDate,
-                                                            date: patient.date,
-                                                            riskFactors: patient
-                                                                .riskFactors,
-                                                            tumorType: patient
-                                                                .tumorType,
-                                                            pathology: patient
-                                                                .pathology,
-                                                            treatment:
-                                                                treatment.text,
-                                                            aditionalInformation:
-                                                                patient
-                                                                    .aditionalInformation,
-                                                            gallery: patient
-                                                                .gallery);
-                                                    User? user =
-                                                        await authProvider
-                                                            .getUser();
-                                                    final DatabaseService
-                                                        database =
-                                                        DatabaseService();
+                                  return AlertDialog(
+                                    title: const Text('Tratamiento actual'),
+                                    content: CustomInput(
+                                      title: const Text('Tratamiento'),
+                                      controller: treatment,
+                                    ),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            try {
+                                              PatientInformation newPatient =
+                                                  PatientInformation(
+                                                      doc: patient.doc,
+                                                      name: patient.name,
+                                                      gender: patient.gender,
+                                                      hospital:
+                                                          patient.hospital,
+                                                      age: patient.age,
+                                                      id: patient.id,
+                                                      photo: patient.photo,
+                                                      initialDate:
+                                                          patient.initialDate,
+                                                      date: patient.date,
+                                                      riskFactors:
+                                                          patient.riskFactors,
+                                                      tumorType:
+                                                          patient.tumorType,
+                                                      pathology:
+                                                          patient.pathology,
+                                                      treatment: treatment.text,
+                                                      aditionalInformation: patient
+                                                          .aditionalInformation,
+                                                      gallery: patient.gallery);
+                                              User? user =
+                                                  await authProvider.getUser();
+                                              final DatabaseService database =
+                                                  DatabaseService();
 
-                                                    await database
-                                                        .updatePatientlInfo(
-                                                            user!.uid,
-                                                            newPatient,
-                                                            patient.doc ?? '');
-                                                    patientListProvider
-                                                        .updatePatientsList(
-                                                            user, database);
-                                                    // setState(() {
-                                                    //   patient = newPatient;
-                                                    // });
+                                              await database.updatePatientlInfo(
+                                                  user!.uid,
+                                                  newPatient,
+                                                  patient.doc ?? '');
+                                              patientListProvider
+                                                  .updatePatientsList(
+                                                      user, database);
+                                              // setState(() {
+                                              //   patient = newPatient;
+                                              // });
 
-                                                    if (mounted) {
-                                                      Navigator.pop(dxcontext);
-                                                    }
-                                                  } catch (e) {
-                                                    print(e);
-                                                  }
-                                                  updatePatient();
-                                                },
-                                                child: const Text('Ingresar'))
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: const Icon(Icons.edit))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          patient.treatment ?? 'No ha añadido un tratamiento',
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              'Información adicional:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 18),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext dxcontext) {
-                                        TextEditingController
-                                            aditionalInformation =
-                                            TextEditingController();
-                                        aditionalInformation.text =
-                                            patient.aditionalInformation ?? '';
-
-                                        return StatefulBuilder(
-                                          builder: (BuildContext context,
-                                              setStateAditional) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                  'Información adicional'),
-                                              content: CustomInput(
-                                                maxLines: 5,
-                                                title: const Text('Datos: '),
-                                                controller:
-                                                    aditionalInformation,
-                                              ),
-                                              actions: [
-                                                ElevatedButton(
-                                                    onPressed: () async {
-                                                      try {
-                                                        PatientInformation
-                                                            newPatient =
-                                                            PatientInformation(
-                                                                doc:
-                                                                    patient.doc,
-                                                                name: patient
-                                                                    .name,
-                                                                gender: patient
-                                                                    .gender,
-                                                                hospital: patient
-                                                                    .hospital,
-                                                                age:
-                                                                    patient.age,
-                                                                id: patient.id,
-                                                                photo: patient
-                                                                    .photo,
-                                                                initialDate: patient
-                                                                    .initialDate,
-                                                                date: patient
-                                                                    .date,
-                                                                riskFactors: patient
-                                                                    .riskFactors,
-                                                                tumorType: patient
-                                                                    .tumorType,
-                                                                pathology: patient
-                                                                    .pathology,
-                                                                treatment: patient
-                                                                    .treatment,
-                                                                aditionalInformation:
-                                                                    aditionalInformation
-                                                                        .text,
-                                                                gallery: patient
-                                                                    .gallery);
-                                                        User? user =
-                                                            await authProvider
-                                                                .getUser();
-                                                        final DatabaseService
-                                                            database =
-                                                            DatabaseService();
-
-                                                        await database
-                                                            .updatePatientlInfo(
-                                                                user!.uid,
-                                                                newPatient,
-                                                                patient.doc ??
-                                                                    '');
-                                                        patientListProvider
-                                                            .updatePatientsList(
-                                                                user, database);
-                                                        // setState(() {
-                                                        //   patient = newPatient;
-                                                        // });
-
-                                                        if (mounted) {
-                                                          Navigator.pop(
-                                                              dxcontext);
-                                                        }
-                                                      } catch (e) {
-                                                        print(e);
-                                                      }
-                                                      updatePatient();
-                                                    },
-                                                    child:
-                                                        const Text('Ingresar'))
-                                              ],
-                                            );
+                                              if (mounted) {
+                                                Navigator.pop(dxcontext);
+                                              }
+                                            } catch (e) {
+                                              print(e);
+                                            }
+                                            updatePatient();
                                           },
-                                        );
-                                      });
-                                },
-                                icon: const Icon(Icons.edit))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(patient.aditionalInformation ??
-                            'Añada información adicional'),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text(
-                          'Galería de examenes:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 18),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: AppTheme.buttonLabelColor,
-                                borderRadius: BorderRadius.circular(10)),
-                            height: size.width * 0.5,
-                            width: size.width * 0.5,
-                            child: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Icon(Icons.upload, color: Colors.white),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Sube una imagen',
-                                    style: TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
+                                          child: const Text('Ingresar'))
+                                    ],
+                                  );
+                                });
+                          },
+                          icon: const Icon(Icons.edit))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    patient.treatment ?? 'No ha añadido un tratamiento',
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Información adicional:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext dxcontext) {
+                                  TextEditingController aditionalInformation =
+                                      TextEditingController();
+                                  aditionalInformation.text =
+                                      patient.aditionalInformation ?? '';
+
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        setStateAditional) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Información adicional'),
+                                        content: CustomInput(
+                                          maxLines: 5,
+                                          title: const Text('Datos: '),
+                                          controller: aditionalInformation,
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                try {
+                                                  PatientInformation
+                                                      newPatient =
+                                                      PatientInformation(
+                                                          doc: patient.doc,
+                                                          name: patient.name,
+                                                          gender:
+                                                              patient.gender,
+                                                          hospital:
+                                                              patient.hospital,
+                                                          age: patient.age,
+                                                          id: patient.id,
+                                                          photo: patient.photo,
+                                                          initialDate: patient
+                                                              .initialDate,
+                                                          date: patient.date,
+                                                          riskFactors: patient
+                                                              .riskFactors,
+                                                          tumorType:
+                                                              patient.tumorType,
+                                                          pathology:
+                                                              patient.pathology,
+                                                          treatment:
+                                                              patient.treatment,
+                                                          aditionalInformation:
+                                                              aditionalInformation
+                                                                  .text,
+                                                          gallery:
+                                                              patient.gallery);
+                                                  User? user =
+                                                      await authProvider
+                                                          .getUser();
+                                                  final DatabaseService
+                                                      database =
+                                                      DatabaseService();
+
+                                                  await database
+                                                      .updatePatientlInfo(
+                                                          user!.uid,
+                                                          newPatient,
+                                                          patient.doc ?? '');
+                                                  patientListProvider
+                                                      .updatePatientsList(
+                                                          user, database);
+                                                  // setState(() {
+                                                  //   patient = newPatient;
+                                                  // });
+
+                                                  if (mounted) {
+                                                    Navigator.pop(dxcontext);
+                                                  }
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+                                                updatePatient();
+                                              },
+                                              child: const Text('Ingresar'))
+                                        ],
+                                      );
+                                    },
+                                  );
+                                });
+                          },
+                          icon: const Icon(Icons.edit))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(patient.aditionalInformation ??
+                      'Añada información adicional'),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // const Text(
+                  //   'Galería de examenes:',
+                  //   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Center(
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         color: AppTheme.buttonLabelColor,
+                  //         borderRadius: BorderRadius.circular(10)),
+                  //     height: size.width * 0.5,
+                  //     width: size.width * 0.5,
+                  //     child: Center(
+                  //       child: Column(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: const [
+                  //           Icon(Icons.upload, color: Colors.white),
+                  //           SizedBox(
+                  //             height: 5,
+                  //           ),
+                  //           Text(
+                  //             'Sube una imagen',
+                  //             style: TextStyle(color: Colors.white),
+                  //             textAlign: TextAlign.center,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),

@@ -4,8 +4,13 @@ class AppTheme {
   static const Color primary = Color.fromRGBO(249, 249, 249, 1);
 
   static const Color buttonLabelColor = Color.fromRGBO(98, 210, 212, 1);
-  static const TextStyle titleStyleLight = TextStyle(color: Colors.black);
   static const Color bannerColor = Color.fromRGBO(249, 249, 249, 1);
+  static const TextStyle titleStyleLight = TextStyle(color: Colors.black);
+  static const TextStyle titleStyle =
+      TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w600);
+
+  static TextStyle subTitleStyle =
+      TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 15);
 
   // static const secondColor = Color.fromRGBO(173, 173, 175, 1);
   // static const backgroundColor = Color.fromRGBO(246, 246, 249, 1);

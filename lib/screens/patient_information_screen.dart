@@ -229,56 +229,81 @@ class _PatientInformationScreenState extends State<PatientInformationScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(),
                           const SizedBox(
                             height: 20,
                           ),
-                          const Text(
-                            'Cita próxima:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            patientListProvider.isLoading
-                                ? 'Cargando...'
-                                : patient.date != null
-                                    ? DateFormat.yMMMMEEEEd()
-                                        .format(patient.date!.toUtc())
-                                    : 'No presenta cita',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text(
-                            'Tratamiento actual:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            patient.treatment ?? 'No se ha añadido tratamiento',
+                          CustomRow(
+                            icon: const Icon(Icons.date_range_outlined),
+                            widget: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Cita próxima:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  patientListProvider.isLoading
+                                      ? 'Cargando...'
+                                      : patient.date != null
+                                          ? DateFormat.yMMMMEEEEd()
+                                              .format(patient.date!.toUtc())
+                                          : 'No presenta cita',
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          const Text(
-                            'Analisis del sistema',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
-                          ),
+                          CustomRow(
+                              widget: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Tratamiento actual:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    patient.treatment ??
+                                        'No se ha añadido tratamiento',
+                                  ),
+                                ],
+                              ),
+                              icon: const Icon(Icons.wb_sunny_outlined)),
                           const SizedBox(
-                            height: 5,
+                            height: 20,
                           ),
-                          Text(
-                            patient.tumorType != null
-                                ? 'Tipo de tumor: ${patient.tumorType}'
-                                : 'No se ha realizado análisis de tumor',
-                          ),
+                          CustomRow(
+                              widget: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Analisis del sistema',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    patient.tumorType != null
+                                        ? 'Tipo de tumor: ${patient.tumorType}'
+                                        : 'No se ha realizado análisis de tumor',
+                                  ),
+                                ],
+                              ),
+                              icon: const Icon(Icons.analytics_outlined))
                         ],
                       ),
                     )
@@ -290,5 +315,30 @@ class _PatientInformationScreenState extends State<PatientInformationScreen> {
         ),
       ],
     ));
+  }
+}
+
+class CustomRow extends StatelessWidget {
+  const CustomRow({
+    super.key,
+    required this.widget,
+    required this.icon,
+  });
+
+  final Widget widget;
+  final Icon icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        icon,
+        const SizedBox(
+          width: 10,
+        ),
+        widget
+      ],
+    );
   }
 }
