@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/models.dart';
 import '../providers/auth.dart';
 import '../providers/providers.dart';
-import '../services/services.dart';
 import '../theme/app_theme.dart';
-import '../widgets/widgets.dart';
 
 class MoreInformationScreen extends StatefulWidget {
   const MoreInformationScreen({Key? key}) : super(key: key);
@@ -144,13 +141,12 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                     height: 20,
                   ),
                   Row(
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         'Factores de riesgo:',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
                     ],
                   ),
                   const SizedBox(
@@ -180,84 +176,12 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                     height: 20,
                   ),
                   Row(
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         'Tratamiento Actual:',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext dxcontext) {
-                                  TextEditingController treatment =
-                                      TextEditingController();
-                                  treatment.text = patient.treatment ?? '';
-
-                                  return AlertDialog(
-                                    title: const Text('Tratamiento actual'),
-                                    content: CustomInput(
-                                      title: const Text('Tratamiento'),
-                                      controller: treatment,
-                                    ),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            try {
-                                              PatientInformation newPatient =
-                                                  PatientInformation(
-                                                      doc: patient.doc,
-                                                      name: patient.name,
-                                                      gender: patient.gender,
-                                                      hospital:
-                                                          patient.hospital,
-                                                      age: patient.age,
-                                                      id: patient.id,
-                                                      photo: patient.photo,
-                                                      initialDate:
-                                                          patient.initialDate,
-                                                      date: patient.date,
-                                                      riskFactors:
-                                                          patient.riskFactors,
-                                                      tumorType:
-                                                          patient.tumorType,
-                                                      pathology:
-                                                          patient.pathology,
-                                                      treatment: treatment.text,
-                                                      aditionalInformation: patient
-                                                          .aditionalInformation,
-                                                      gallery: patient.gallery);
-                                              User? user =
-                                                  await authProvider.getUser();
-                                              final DatabaseService database =
-                                                  DatabaseService();
-
-                                              await database.updatePatientlInfo(
-                                                  user!.uid,
-                                                  newPatient,
-                                                  patient.doc ?? '');
-                                              patientListProvider
-                                                  .updatePatientsList(
-                                                      user, database);
-                                              // setState(() {
-                                              //   patient = newPatient;
-                                              // });
-
-                                              if (mounted) {
-                                                Navigator.pop(dxcontext);
-                                              }
-                                            } catch (e) {
-                                              print(e);
-                                            }
-                                            updatePatient();
-                                          },
-                                          child: const Text('Ingresar'))
-                                    ],
-                                  );
-                                });
-                          },
-                          icon: const Icon(Icons.edit))
                     ],
                   ),
                   const SizedBox(
@@ -266,101 +190,16 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                   Text(
                     patient.treatment ?? 'No ha añadido un tratamiento',
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         'Información adicional:',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext dxcontext) {
-                                  TextEditingController aditionalInformation =
-                                      TextEditingController();
-                                  aditionalInformation.text =
-                                      patient.aditionalInformation ?? '';
-
-                                  return StatefulBuilder(
-                                    builder: (BuildContext context,
-                                        setStateAditional) {
-                                      return AlertDialog(
-                                        title:
-                                            const Text('Información adicional'),
-                                        content: CustomInput(
-                                          maxLines: 5,
-                                          title: const Text('Datos: '),
-                                          controller: aditionalInformation,
-                                        ),
-                                        actions: [
-                                          ElevatedButton(
-                                              onPressed: () async {
-                                                try {
-                                                  PatientInformation
-                                                      newPatient =
-                                                      PatientInformation(
-                                                          doc: patient.doc,
-                                                          name: patient.name,
-                                                          gender:
-                                                              patient.gender,
-                                                          hospital:
-                                                              patient.hospital,
-                                                          age: patient.age,
-                                                          id: patient.id,
-                                                          photo: patient.photo,
-                                                          initialDate: patient
-                                                              .initialDate,
-                                                          date: patient.date,
-                                                          riskFactors: patient
-                                                              .riskFactors,
-                                                          tumorType:
-                                                              patient.tumorType,
-                                                          pathology:
-                                                              patient.pathology,
-                                                          treatment:
-                                                              patient.treatment,
-                                                          aditionalInformation:
-                                                              aditionalInformation
-                                                                  .text,
-                                                          gallery:
-                                                              patient.gallery);
-                                                  User? user =
-                                                      await authProvider
-                                                          .getUser();
-                                                  final DatabaseService
-                                                      database =
-                                                      DatabaseService();
-
-                                                  await database
-                                                      .updatePatientlInfo(
-                                                          user!.uid,
-                                                          newPatient,
-                                                          patient.doc ?? '');
-                                                  patientListProvider
-                                                      .updatePatientsList(
-                                                          user, database);
-                                                  // setState(() {
-                                                  //   patient = newPatient;
-                                                  // });
-
-                                                  if (mounted) {
-                                                    Navigator.pop(dxcontext);
-                                                  }
-                                                } catch (e) {
-                                                  print(e);
-                                                }
-                                                updatePatient();
-                                              },
-                                              child: const Text('Ingresar'))
-                                        ],
-                                      );
-                                    },
-                                  );
-                                });
-                          },
-                          icon: const Icon(Icons.edit))
                     ],
                   ),
                   const SizedBox(

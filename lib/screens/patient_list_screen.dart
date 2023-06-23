@@ -16,6 +16,7 @@ class PatientListScreen extends StatefulWidget {
 
 class _PatientListScreenState extends State<PatientListScreen> {
   List<PatientInformation> patientsList = [];
+  List<PatientInformation> tempPaitnetList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -25,8 +26,11 @@ class _PatientListScreenState extends State<PatientListScreen> {
   @override
   Widget build(BuildContext context) {
     final patientListProvider =
-        Provider.of<PatientListProvider>(context, listen: false);
+        Provider.of<PatientListProvider>(context, listen: true);
     List<PatientInformation> patientsList = patientListProvider.patientsList;
+    if (tempPaitnetList.isEmpty) {
+      tempPaitnetList = patientsList;
+    }
 
     final size = MediaQuery.of(context).size;
 
@@ -60,11 +64,20 @@ class _PatientListScreenState extends State<PatientListScreen> {
             ),
             patientsList.isEmpty
                 ? const SizedBox()
-                : const CupertinoSearchTextField(
+                : CupertinoSearchTextField(
                     backgroundColor: Colors.white,
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         top: 15, bottom: 15, left: 10, right: 10),
                     placeholder: 'Buscar',
+                    onChanged: (value) {
+                      setState(() {
+                        tempPaitnetList = patientsList
+                            .where((element) => element.name
+                                .toUpperCase()
+                                .contains(value.toUpperCase()))
+                            .toList();
+                      });
+                    },
                   ),
             const SizedBox(
               height: 25,
@@ -92,11 +105,11 @@ class _PatientListScreenState extends State<PatientListScreen> {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: patientsList.length,
+                      itemCount: tempPaitnetList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return PatientCard(
                           size: size,
-                          patients: patientsList,
+                          patients: tempPaitnetList,
                           index: index,
                         );
                       }),
