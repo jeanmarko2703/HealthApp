@@ -227,11 +227,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                         ),
                                       ),
                                       placeholder: (context, url) =>
-                                          const SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
+                                          const Center(
+                                        child: SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                       errorWidget: (context, url, error) =>

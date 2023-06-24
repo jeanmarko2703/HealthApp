@@ -245,9 +245,14 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                                       ),
                                     ),
                                   ),
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(
-                                    color: AppTheme.buttonLabelColor,
+                                  placeholder: (context, url) => const Center(
+                                    child: SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
