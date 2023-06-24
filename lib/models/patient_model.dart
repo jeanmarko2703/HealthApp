@@ -63,7 +63,9 @@ class PatientInformation {
           pathology: json['pathology'],
           treatment: json['treatment'],
           aditionalInformation: json['aditionalInformation'],
-          gallery: json['gallery']);
+          gallery: json['gallery'] != null
+              ? List<String>.from(json['gallery'])
+              : null);
 
   Map<String, dynamic> toJson() => {
         "doc": doc,
@@ -80,6 +82,6 @@ class PatientInformation {
         "pathology": pathology,
         "treatment": treatment,
         "aditionalInformation": aditionalInformation,
-        "gallery": gallery
+        "gallery": gallery != null ? [...gallery!] : null,
       };
 }

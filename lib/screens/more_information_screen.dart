@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -210,38 +211,50 @@ class _MoreInformationScreenState extends State<MoreInformationScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  // const Text(
-                  //   'Galería de examenes:',
-                  //   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Center(
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //         color: AppTheme.buttonLabelColor,
-                  //         borderRadius: BorderRadius.circular(10)),
-                  //     height: size.width * 0.5,
-                  //     width: size.width * 0.5,
-                  //     child: Center(
-                  //       child: Column(
-                  //         mainAxisSize: MainAxisSize.min,
-                  //         children: const [
-                  //           Icon(Icons.upload, color: Colors.white),
-                  //           SizedBox(
-                  //             height: 5,
-                  //           ),
-                  //           Text(
-                  //             'Sube una imagen',
-                  //             style: TextStyle(color: Colors.white),
-                  //             textAlign: TextAlign.center,
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
+                  if (patient.gallery != null) ...[
+                    const Text(
+                      'Galería de examenes:',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 120,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: patient.gallery!.length,
+                          itemBuilder: (BuildContext ctx, int index) {
+                            return Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                height: 100,
+                                width: 100,
+                                color: Colors.grey,
+                                child: CachedNetworkImage(
+                                  imageUrl: patient.gallery![index],
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(
+                                    color: AppTheme.buttonLabelColor,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ));
+                          }),
+                    )
+                  ]
                 ],
               ),
             ),

@@ -45,7 +45,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                             CustomInput(
                                 title: const Text('Edad de diagnostico: '),
                                 controller: treatmentForm.ageAtDiagnosis,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     print(treatmentForm.ageAtDiagnosis.text);
@@ -79,7 +81,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                             CustomInput(
                                 title: const Text('Cohort: '),
                                 controller: treatmentForm.cohort,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     print('textura');
@@ -147,7 +151,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                                 title: const Text('Neoplas grado: '),
                                 controller:
                                     treatmentForm.neoplasmHistologicGrade,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     (value != null && value.isNotEmpty)
@@ -183,9 +189,11 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                         child: Column(
                           children: [
                             CustomInput(
-                                title: const Text('Lymph positivo: (P:1 N:0)'),
+                                title: const Text('Lymph positivo:'),
                                 controller: treatmentForm.lymphPositive,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     (value != null && value.isNotEmpty)
@@ -218,7 +226,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                             CustomInput(
                                 title: const Text('Mutaciones: '),
                                 controller: treatmentForm.mutationCount,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     (value != null && value.isNotEmpty)
@@ -284,7 +294,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                             CustomInput(
                                 title: const Text('Gene tipo: '),
                                 controller: treatmentForm.geneClassifier,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     (value != null && value.isNotEmpty)
@@ -318,7 +330,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                             CustomInput(
                                 title: const Text('Nottingham: '),
                                 controller: treatmentForm.nottinghamPrognostic,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     (value != null && value.isNotEmpty)
@@ -355,7 +369,9 @@ class _TreatmentExamScreenState extends State<TreatmentExamScreen> {
                             CustomInput(
                                 title: const Text('Oncotree: '),
                                 controller: treatmentForm.oncotree,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 validator: (value) {
                                   {
                                     (value != null && value.isNotEmpty)
